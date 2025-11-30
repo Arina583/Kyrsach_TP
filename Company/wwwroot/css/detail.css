@@ -1,0 +1,50 @@
+﻿body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: #f4f7f8;
+    color: #333;
+}
+
+header {
+    background: #004580;
+    background: rgb(0,69,128);
+    background: linear-gradient(90deg, rgba(0,69,128,1) 0%, rgba(0,91,170,1) 50%);
+    color: white;
+    padding: 20px 30px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.btn-primary {
+    background-color: #005baa !important; /* Темно-серый цвет на замену синему */
+    border-color: #005baa !important;
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: #1090fe !important; /* Еще темнее при наведении */
+        border-color: #1090fe !important;
+    }
+
+main {
+    max-width: 800px;
+    margin: 40px auto;
+    background: white;
+    ;
+    padding: 30px 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed; /* Подвал как приклеенный */
+    bottom: 0; /* Фиксация снизу */
+    left: 0; /* К началу слева */
+    right: 0; /* Без отступов справа */
+    height: 50px; /* Задаем высоту */
+}

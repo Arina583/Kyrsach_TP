@@ -1,0 +1,157 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\repos\\Company\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|d:\\repos\\company\\views\\flight\\buyticket.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|solutionrelative:views\\flight\\buyticket.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|d:\\repos\\company\\views\\flight\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|solutionrelative:views\\flight\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|d:\\repos\\company\\views\\flight\\search.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|solutionrelative:views\\flight\\search.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|d:\\repos\\company\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|d:\\repos\\company\\wwwroot\\js\\buyticket.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|solutionrelative:wwwroot\\js\\buyticket.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|d:\\repos\\company\\controllers\\flightcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|solutionrelative:controllers\\flightcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|d:\\repos\\company\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|d:\\repos\\company\\wwwroot\\css\\detail.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{2097AFD2-0105-43FA-ABA2-CCD9AB638F4E}|Company.csproj|solutionrelative:wwwroot\\css\\detail.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "buyTicket.js",
+              "DocumentMoniker": "D:\\repos\\Company\\wwwroot\\js\\buyTicket.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\buyTicket.js",
+              "ToolTip": "D:\\repos\\Company\\wwwroot\\js\\buyTicket.js",
+              "RelativeToolTip": "wwwroot\\js\\buyTicket.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-30T18:41:06.24Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BuyTicket.cshtml",
+              "DocumentMoniker": "D:\\repos\\Company\\Views\\Flight\\BuyTicket.cshtml",
+              "RelativeDocumentMoniker": "Views\\Flight\\BuyTicket.cshtml",
+              "ToolTip": "D:\\repos\\Company\\Views\\Flight\\BuyTicket.cshtml",
+              "RelativeToolTip": "Views\\Flight\\BuyTicket.cshtml",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACkAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-27T20:14:19.566Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "detail.css",
+              "DocumentMoniker": "D:\\repos\\Company\\wwwroot\\css\\detail.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\detail.css",
+              "ToolTip": "D:\\repos\\Company\\wwwroot\\css\\detail.css",
+              "RelativeToolTip": "wwwroot\\css\\detail.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-11-27T18:31:52.386Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "D:\\repos\\Company\\Views\\Flight\\Details.cshtml",
+              "RelativeDocumentMoniker": "Views\\Flight\\Details.cshtml",
+              "ToolTip": "D:\\repos\\Company\\Views\\Flight\\Details.cshtml",
+              "RelativeToolTip": "Views\\Flight\\Details.cshtml",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAADAAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-27T18:19:25.356Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "site.css",
+              "DocumentMoniker": "D:\\repos\\Company\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
+              "ToolTip": "D:\\repos\\Company\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "wwwroot\\css\\site.css",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAFcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-11-27T17:11:23.968Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\repos\\Company\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\repos\\Company\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-27T09:43:03.762Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Search.cshtml",
+              "DocumentMoniker": "D:\\repos\\Company\\Views\\Flight\\Search.cshtml",
+              "RelativeDocumentMoniker": "Views\\Flight\\Search.cshtml",
+              "ToolTip": "D:\\repos\\Company\\Views\\Flight\\Search.cshtml",
+              "RelativeToolTip": "Views\\Flight\\Search.cshtml",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAACcAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-27T09:42:33.385Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FlightController.cs",
+              "DocumentMoniker": "D:\\repos\\Company\\Controllers\\FlightController.cs",
+              "RelativeDocumentMoniker": "Controllers\\FlightController.cs",
+              "ToolTip": "D:\\repos\\Company\\Controllers\\FlightController.cs",
+              "RelativeToolTip": "Controllers\\FlightController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAUwEkAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T09:42:03.58Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

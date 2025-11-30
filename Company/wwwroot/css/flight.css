@@ -1,0 +1,56 @@
+﻿body {
+    background: #004580;
+    background: rgb(0,69,128);
+    background: linear-gradient(90deg, rgba(0,69,128,1) 0%, rgba(0,91,170,1) 50%);
+    color: white; /* Добавил белый цвет текста для лучшей видимости */
+}
+
+header {
+    color: white;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: white;
+    text-align: center;
+}
+
+.card {
+    border-radius: 0 !important; /* Убираем скругления у карточек */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
+}
+
+.btn-primary {
+    background-color: #005baa !important; /* Темно-серый цвет на замену синему */
+    border-color: #005baa !important;
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: #1090fe !important; /* Еще темнее при наведении */
+        border-color: #1090fe !important;
+    }
+
+.btn-success {
+    background-color: #00ad11 !important; /* Темно-синий, более глубокий */
+    border-color: #00ad11 !important;
+}
+
+    .btn-success:hover,
+    .btn-success:focus {
+        background-color: #00e018 !important; /* Темнее при наведении */
+        border-color: #00e018 !important;
+    }
+
+footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;
+    background-color: white;
+    padding: 10px 0;
+    position: fixed; /* Подвал как приклеенный */
+    bottom: 0; /* Фиксация снизу */
+    left: 0; /* К началу слева */
+    right: 0; /* Без отступов справа */
+    height: 50px; /* Задаем высоту */
+}

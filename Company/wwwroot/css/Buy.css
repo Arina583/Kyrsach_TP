@@ -1,0 +1,52 @@
+﻿body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 30px); /* 10 мест в ряд */
+    grid-gap: 5px;
+    margin-top: 20px;
+}
+
+.seat {
+    width: 30px;
+    height: 30px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    user-select: none; /* Предотвращает выделение текста при клике */
+}
+
+    .seat.selected {
+        background-color: lightgreen;
+    }
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed; /* Подвал как приклеенный */
+    bottom: 0; /* Фиксация снизу */
+    left: 0; /* К началу слева */
+    right: 0; /* Без отступов справа */
+    height: 50px; /* Задаем высоту */
+}

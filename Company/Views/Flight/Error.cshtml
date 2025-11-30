@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Ошибка";
+}
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ПассажирскийПуть</title>
+</head>
+<body>
+    <header>ПассажирскийПуть</header>
+    <link rel="stylesheet" href="~/css/flight.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <div class="text-center">
+        <h1 class="text-danger">Ошибка</h1>
+        <p class="text-danger">@ViewBag.ErrorMessage</p>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>

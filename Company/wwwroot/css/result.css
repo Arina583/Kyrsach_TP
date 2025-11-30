@@ -1,0 +1,48 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* Светло-синий фон */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #0056b3; /* Темно-синий заголовок */
+    text-align: center;
+}
+
+.route-list {
+    list-style: none;
+    padding: 0;
+}
+
+.route-item {
+    background-color: #e6f7ff; /* Светлый синий для элементов списка */
+    border: 1px solid #add8e6;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .route-item .status {
+        font-weight: bold;
+        color: #007bff; /* Синий для статуса */
+    }
+
+/* Стили для статусов */
+.status.departed {
+    color: #dc3545; /* Красный для "Отправлен" */
+}
+
+.status.upcoming {
+    color: #28a745; /* Зеленый для "Предстоящий" */
+}

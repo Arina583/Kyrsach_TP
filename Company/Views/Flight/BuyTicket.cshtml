@@ -1,0 +1,43 @@
+﻿@model Company.Models.Flights
+
+@{
+    ViewData["Title"] = "Купить билет";
+    Layout = null;
+    string routeName = $"{Model.Route.cityDeparture.nameStop} - {Model.Route.cityArrival.nameStop}";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Buy.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <h1>Купить билет на рейс @routeName</h1>
+
+    <p>Отправление в @Model.timeDeparture</p>
+    <p>Прибытие в @Model.timeArrival</p>
+
+    <form asp-action="ProcessBuy" asp-controller="Flight" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <label>Выберите место:</label>
+        <div class="seat-grid">
+            @for (int i = 1; i <= 39; i++)
+            {
+                <div class="seat" data-seatnumber="@i">@i</div>
+            }
+        </div>
+        <input type="hidden" id="seatNumber" name="seatNumber" value="" required />
+
+        <button type="submit" name="action" value="buy">Купить</button>
+        <button type="submit" name="action" value="reserve">Забронировать</button>
+    </form>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,38 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ПассажирскийПуть</title>
+</head>
+<body>
+    <header>
+        <a href="/Account/Login">Система Междугородних Перевозок "ПассажирскийПуть"</a>
+    </header>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <main>
+        <h1>Найти маршрут</h1>
+        <form method="post" asp-controller="Flight" asp-action="Search">
+            <div>
+                <label for="from">Откуда</label>
+                <input type="text" id="from" name="from" placeholder="Город отправления" required autocomplete="off" />
+            </div>
+            <div>
+                <label for="to">Куда</label>
+                <input type="text" id="to" name="to" placeholder="Город назначения" required autocomplete="off" />
+            </div>
+            <button type="submit">Найти рейсы</button>
+        </form>
+    </main>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>

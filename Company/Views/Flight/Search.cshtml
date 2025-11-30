@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Company.Models.Flights>
+
+@{
+    ViewData["Title"] = "Доступные рейсы";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ПассажирскийПуть</title>
+    <link rel="stylesheet" href="~/css/flight.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <header>
+        <h1>Рейсы</h1>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (Model != null && Model.Any())
+            {
+                <div class="row">
+                    @foreach (var flight in Model)
+                    {
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Рейс № @flight.numberFlight</h5>
+                                    <p class="card-text">
+                                        <b>Время отправления:</b> @flight.timeDeparture<br />
+                                        <b>Время прибытия:</b> @flight.timeArrival<br />
+                                        <b>Статус:</b> @flight.status<br />
+                                    </p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between">
+                                    <a href="@Url.Action("Details", "Flight", new { id = flight.Id })" class="btn btn-primary">Подробнее</a>
+                                    <a href="@Url.Action("BuyTicket", "Flight", new { id = flight.Id })" class="btn btn-success">Купить билет</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p style="text-align:center; color: white">Рейсы не найдены</p>
+            }
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted mt-4">
+        <div class="container">
+            © 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>
