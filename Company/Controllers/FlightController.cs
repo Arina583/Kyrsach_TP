@@ -112,6 +112,27 @@ namespace TruckingCompany.Controllers
                 return BadRequest("This seat is currently unavailable.");
             }
 
+            if (actionType == "buy")
+            {
+                // Получаем маршрут и проверяем длину
+                var route = await _context.Routes.FindAsync(flight.RouteId);
+                if (route == null)
+                {
+                    return BadRequest("Route not found for this flight.");
+                }
+
+                if (route.light > 30)
+                {
+                    // Перенаправляем на страницу ввода паспортных данных
+                    return RedirectToAction("Data(buy)", new { id = id, seatNumber = seatNumber });
+                }
+                else
+                {
+                    // Перенаправляем на страницу оплаты
+                    return RedirectToAction("Payment", new { id = id, seatNumber = seatNumber });
+                }
+            }
+
             if (actionType == "reserve")
             {
                 // Получаем маршрут связанный с рейсом
@@ -151,6 +172,23 @@ namespace TruckingCompany.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            return View();
+        }
+
+        // Методы для отображения страниц ввода данных и оплаты
+        public IActionResult PassportData(int id, int seatNumber)
+        {
+            // Передаем параметры в представление
+            ViewBag.FlightId = id;
+            ViewBag.SeatNumber = seatNumber;
+            return View();
+        }
+
+        public IActionResult Payment(int id, int seatNumber)
+        {
+            // Передаем параметры в представление
+            ViewBag.FlightId = id;
+            ViewBag.SeatNumber = seatNumber;
             return View();
         }
     }

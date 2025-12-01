@@ -1,0 +1,45 @@
+﻿@model Company.Models.Flights
+
+@{
+    ViewData["Title"] = "Купить билет";
+    Layout = null;
+    string routeName = $"{Model.Route.cityDeparture.nameStop} - {Model.Route.cityArrival.nameStop}";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Buy.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <header>Покупка билета на рейс @routeName</header>
+
+    <h3>ВВедите данные для оплаты</h3>
+    <hr />
+    <main>
+        <div>
+            <p>@Model.</p>
+        </div>
+        <form asp-action="ReserveSeat" asp-controller="Flight" method="post">
+            <label for="card_number">Номер карты:</label><br>
+            <input type="text" id="card_number" name="card_number"><br><br>
+
+            <label for="expiry_date">Срок действия:</label><br>
+            <input type="month" id="expiry_date" name="expiry_date"><br><br>
+
+            <label for="cvv">CVV:</label><br>
+            <input type="text" id="cvv" name="cvv"><br><br>
+
+            <input type="submit" value="Купить">
+        </form>
+    </main>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+<script src="~/js/buyTicket.js"></script>
+</html>

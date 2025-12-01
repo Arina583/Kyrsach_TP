@@ -61,22 +61,17 @@ form {
 
     /* Активное выбранное место - класс например "selected" */
     .seat.selected {
-        background-color: #0059b3;
-        color: #fff;
-        border-color: #00264d;
+        background-color: #5bc0de;
+        color: white;
     }
 
     .seat.reserved {
-        background-color: #d9534f;
-        color: white;
-        cursor: default;
-        pointer-events: none;
-        opacity: 0.6;
+        background-color: gray; /* Измените на нужный цвет */
+        cursor: not-allowed; /* Изменяем курсор */
     }
 
-    .seat.selected {
-        background-color: #5bc0de;
-        color: white;
+    .seat.disabled {
+        pointer-events: none; /* Отключаем события мыши */
     }
 
 /* Кнопки */

@@ -57,4 +57,16 @@
             }
         });
     });
+
+    //Покупка билета
+    document.getElementById('buyButton').addEventListener('click', function () {
+        let selectedSeat = document.querySelector('.seat.selected');
+        if (selectedSeat) {
+            document.getElementById('seatNumber').value = selectedSeat.dataset.seatnumber;
+            document.getElementById('actionType').value = 'buy';
+            document.getElementById('reservationForm').submit();
+        } else {
+            alert('Пожалуйста, выберите место.');
+        }
+    });
 });
