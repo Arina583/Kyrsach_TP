@@ -90,6 +90,13 @@ namespace TruckingCompany.Controllers
                 return NotFound();
             }
 
+            var reservedSeats = _context.Tickets
+                .Where(t => t.FlightId == id && t.status == "Забронирован")
+                .Select(t => t.numberSeat)
+                .ToList();
+
+            ViewBag.ReservedSeats = reservedSeats;
+
             return View(flight);
         }
 
