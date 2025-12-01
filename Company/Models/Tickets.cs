@@ -4,7 +4,7 @@
     {
         public int id { get; set; }
         public int numberSeat { get; set; }
-        public double pice { get; set; }
+        public double price { get; set; }
         public string status { get; set; }
 
         //связи между моделями

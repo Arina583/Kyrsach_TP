@@ -7759,11 +7759,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\repos\\Company\\Company.csproj",
+      "projectUniqueName": "C:\\Users\\Huawei\\Documents\\GitHub\\------_----------\\Company\\Company.csproj",
       "projectName": "Company",
-      "projectPath": "D:\\repos\\Company\\Company.csproj",
+      "projectPath": "C:\\Users\\Huawei\\Documents\\GitHub\\------_----------\\Company\\Company.csproj",
       "packagesPath": "C:\\Users\\Huawei\\.nuget\\packages\\",
-      "outputPath": "D:\\repos\\Company\\obj\\",
+      "outputPath": "C:\\Users\\Huawei\\Documents\\GitHub\\------_----------\\Company\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

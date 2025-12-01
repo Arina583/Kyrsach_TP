@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string nameStop { get; set; }
-        public string adress { get; set; }
+        public string address { get; set; }
         public TimeOnly timeParking { get; set; }
 
         // Маршруты, где этот город - отправление

@@ -92,5 +92,41 @@ namespace TruckingCompany.Controllers
 
             return View(flight);
         }
+
+        [HttpPost]
+        public IActionResult ReserveSeat([FromBody] ReserveRequest request)
+        {
+            // Проверить модель
+            if (request == null || request.SeatNumber <= 0 || string.IsNullOrEmpty(request.Email))
+                return Json(new { success = false, message = "Некорректные данные" });
+
+            // TODO: проверить что место не занято
+            bool isAvailable = CheckSeatAvailability(request.FlightId, request.SeatNumber);
+            if (!isAvailable)
+                return Json(new { success = false, message = "Место уже занято" });
+
+            // TODO: сохранить бронирование (с пометкой, что оно в резерве)
+            var reservation = SaveReservation(request.FlightId, request.SeatNumber, request.Email);
+
+            // TODO: отправить email с реквизитами для оплаты на request.Email
+            SendEmailPaymentDetails(request.Email, reservation);
+
+            // URL страницы оплаты (можно параметр или хардкод)
+            string paymentUrl = Url.Action("Payment", "Payment", new { reservationId = reservation.Id }, Request.Scheme);
+
+            return Json(new { success = true, paymentUrl });
+        }
+
+        private void SendEmailPaymentDetails(string email, object reservation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public class ReserveRequest
+        {
+            public int FlightId { get; set; }
+            public int SeatNumber { get; set; }
+            public string Email { get; set; }
+        }
     }
 }

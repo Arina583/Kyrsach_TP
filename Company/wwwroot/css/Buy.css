@@ -1,44 +1,104 @@
-﻿body {
-    font-family: sans-serif;
-    margin: 20px;
-}
-
-h1 {
+﻿/* Общие стили и фон */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: #f4f7f8;
     color: #333;
 }
 
+/* Заголовок */
+header {
+    background: #004580;
+    background: rgb(0,69,128);
+    background: linear-gradient(90deg, rgba(0,69,128,1) 0%, rgba(0,91,170,1) 50%);
+    color: white;
+    padding: 20px 30px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* Абзацы информации о рейсе */
+h3 {
+    font-size: 1.1rem;
+    margin: 5px 0 15px;
+    text-align: center;
+}
+
+form {
+    text-align: center;
+}
+
+/* Сетка мест */
 .seat-grid {
     display: grid;
-    grid-template-columns: repeat(10, 30px); /* 10 мест в ряд */
-    grid-gap: 5px;
-    margin-top: 20px;
+    grid-template-columns: repeat(7, 40px);
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
+/* Отдельное место */
 .seat {
-    width: 30px;
-    height: 30px;
-    background-color: #eee;
-    border: 1px solid #ccc;
+    background-color: #cce0ff;
+    border: 2px solid #3399ff;
+    border-radius: 5px;
+    color: #003366;
+    font-weight: 600;
     text-align: center;
-    line-height: 30px;
+    line-height: 40px;
     cursor: pointer;
-    user-select: none; /* Предотвращает выделение текста при клике */
+    user-select: none;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
-    .seat.selected {
-        background-color: lightgreen;
+    /* При наведении */
+    .seat:hover {
+        background-color: #3399ff;
+        color: #fff;
+        border-color: #003366;
     }
 
+    /* Активное выбранное место - класс например "selected" */
+    .seat.selected {
+        background-color: #0059b3;
+        color: #fff;
+        border-color: #00264d;
+    }
+
+    .seat.reserved {
+        background-color: #d9534f;
+        color: white;
+        cursor: default;
+        pointer-events: none;
+        opacity: 0.6;
+    }
+
+    .seat.selected {
+        background-color: #5bc0de;
+        color: white;
+    }
+
+/* Кнопки */
 button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #005baa;
     border: none;
+    color: white;
+    padding: 10px 25px;
+    margin: 0 10px;
+    font-size: 1rem;
     cursor: pointer;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
-footer {
+    button:hover {
+        background-color: #003d80;
+    }
+
+/* Футер */
+footer.footer {
     text-align: center;
     font-size: 0.9rem;
     color: #777;
