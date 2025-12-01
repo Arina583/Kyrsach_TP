@@ -94,39 +94,57 @@ namespace TruckingCompany.Controllers
         }
 
         [HttpPost]
-        public IActionResult ReserveSeat([FromBody] ReserveRequest request)
+        public async Task<IActionResult> ReserveSeat(int id, int seatNumber, string actionType, string email)
         {
-            // Проверить модель
-            if (request == null || request.SeatNumber <= 0 || string.IsNullOrEmpty(request.Email))
-                return Json(new { success = false, message = "Некорректные данные" });
+            var flight = await _context.Flights.FindAsync(id);
+            if (flight == null || seatNumber <= 0 || seatNumber > 39) return NotFound();
 
-            // TODO: проверить что место не занято
-            bool isAvailable = CheckSeatAvailability(request.FlightId, request.SeatNumber);
-            if (!isAvailable)
-                return Json(new { success = false, message = "Место уже занято" });
+            // Проверка, что место не занято
+            if (await _context.Tickets.AnyAsync(t => t.FlightId == id && t.numberSeat == seatNumber && t.status != "available"))
+            {
+                return BadRequest("This seat is currently unavailable.");
+            }
 
-            // TODO: сохранить бронирование (с пометкой, что оно в резерве)
-            var reservation = SaveReservation(request.FlightId, request.SeatNumber, request.Email);
+            if (actionType == "reserve")
+            {
+                // Получаем маршрут связанный с рейсом
+                var route = await _context.Routes.FindAsync(flight.RouteId);
+                if (route == null)
+                {
+                    return BadRequest("Route not found for this flight.");
+                }
 
-            // TODO: отправить email с реквизитами для оплаты на request.Email
-            SendEmailPaymentDetails(request.Email, reservation);
+                // Предположим, что в маршруте есть поле DepartureStopId с Id начальной остановки
+                var departureStopId = route.DepartureStopsId;
 
-            // URL страницы оплаты (можно параметр или хардкод)
-            string paymentUrl = Url.Action("Payment", "Payment", new { reservationId = reservation.Id }, Request.Scheme);
+                var ticket = new Tickets
+                {
+                    FlightId = id,
+                    numberSeat = seatNumber,
+                    price = 215.0,   // Цена из рейса
+                    status = "Забронирован",
+                    email = email,
+                    PassengerId = 1,        // Подставьте нужный PassengerId
+                    StopId = departureStopId // Стартовая остановка из маршрута
+                };
 
-            return Json(new { success = true, paymentUrl });
-        }
+                _context.Tickets.Add(ticket);
+                await _context.SaveChangesAsync();
 
-        private void SendEmailPaymentDetails(string email, object reservation)
-        {
-            throw new NotImplementedException();
-        }
+                // Задача на удаление брони через 30 минут
+                Task.Delay(TimeSpan.FromMinutes(30)).ContinueWith(async _ =>
+                {
+                    var ticketToDelete = await _context.Tickets.FindAsync(ticket.id);
+                    if (ticketToDelete != null && ticketToDelete.status == "Забронирован")
+                    {
+                        _context.Tickets.Remove(ticketToDelete);
+                        await _context.SaveChangesAsync();
+                    }
+                });
+                return RedirectToAction("Index", "Home");
+            }
 
-        public class ReserveRequest
-        {
-            public int FlightId { get; set; }
-            public int SeatNumber { get; set; }
-            public string Email { get; set; }
+            return View();
         }
     }
 }
