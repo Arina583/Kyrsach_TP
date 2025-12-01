@@ -41,4 +41,19 @@
             alert('Пожалуйста, введите email.');
         }
     });
+
+    // Добавляем класс 'reserved' для забронированных мест
+    const reservedSeats = document.querySelectorAll('.seat.reserved');
+    reservedSeats.forEach(seat => {
+        seat.classList.add('disabled'); // Добавляем класс disabled
+    });
+    seats.forEach(seat => {
+        seat.addEventListener('click', function () {
+            if (!this.classList.contains('disabled')) {
+                seats.forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedSeat = this.dataset.seatnumber;
+                document.getElementById('seatNumber').value = selectedSeat;
+            }
+        });
 });
