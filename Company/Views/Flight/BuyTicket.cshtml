@@ -27,7 +27,12 @@
         <div class="seat-grid">
             @for (int i = 1; i <= 39; i++)
             {
-                <div class="seat" data-seatnumber="@i">@i</div>
+                string seatClass = "seat";
+                if (ViewBag.ReservedSeats != null && ViewBag.ReservedSeats.Contains(i))
+                {
+                    seatClass += " reserved";
+                }
+                <div class="@seatClass" data-seatnumber="@i">@i</div>
             }
         </div>
 
