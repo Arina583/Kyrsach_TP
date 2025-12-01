@@ -6,6 +6,7 @@
         public int numberSeat { get; set; }
         public double price { get; set; }
         public string status { get; set; }
+        public string email { get; set; }
 
         //связи между моделями
         public Flights? Flight { get; set; }
