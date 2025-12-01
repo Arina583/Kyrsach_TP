@@ -18,9 +18,11 @@
 
     <h3>Выберите место</h3>
     <hr />
-
-    <form asp-action="ProcessBuy" asp-controller="Flight" method="post">
+    <form asp-action="ReserveSeat" asp-controller="Flight" method="post" id="reservationForm">
         <input type="hidden" asp-for="Id" />
+        <input type="hidden" id="seatNumber" name="seatNumber" value="" required />
+        <input type="hidden" id="actionType" name="actionType" value="" />
+        <input type="hidden" id="email" name="email" value="" />
 
         <div class="seat-grid">
             @for (int i = 1; i <= 39; i++)
@@ -28,19 +30,17 @@
                 <div class="seat" data-seatnumber="@i">@i</div>
             }
         </div>
-        <input type="hidden" id="seatNumber" name="seatNumber" value="" required />
 
-        <button type="submit" value="buy">Купить</button>
-        <button type="submit" value="reserve">Забронировать</button>
-        
+        <button type="button" id="buyButton">Купить</button>
+        <button type="button" id="reserveButton">Забронировать</button>
+
         <div id="emailModal" style="display:none;position:fixed;top:30%;left:50%;transform:translateX(-50%);background:#fff;padding:20px;border:1px solid #ccc;z-index:1000;">
             <label>Введите вашу почту для бронирования:</label><br />
             <input type="email" id="emailInput" required />
-            <button id="confirmReserve">Подтвердить</button>
-            <button id="cancelReserve">Отмена</button>
+            <button type="button" id="confirmReserve">Подтвердить</button>
+            <button type="button" id="cancelReserve">Отмена</button>
         </div>
         <div id="modalOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000066;z-index:999;"></div>
-
     </form>
     <footer class="border-top footer text-muted">
         <div class="container">
