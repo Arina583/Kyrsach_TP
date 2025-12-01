@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Company.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Company.Models;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -124,7 +125,7 @@ namespace TruckingCompany.Controllers
                 if (route.light > 30)
                 {
                     // Перенаправляем на страницу ввода паспортных данных
-                    return RedirectToAction("Data(buy)", new { id = id, seatNumber = seatNumber });
+                    return RedirectToAction("PassportData", new { id = id, seatNumber = seatNumber });
                 }
                 else
                 {
@@ -172,24 +173,43 @@ namespace TruckingCompany.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return View();
+            return BadRequest("Неизвестный тип действия.");
         }
+
+
+        /*[HttpGet]
+        public IActionResult PassportData()
+        {
+            return View(new Passengers());  // Отобразить страницу с формой ввода данных
+        }*/
 
         // Методы для отображения страниц ввода данных и оплаты
-        public IActionResult PassportData(int id, int seatNumber)
+        [HttpGet]
+        public async Task<IActionResult> PassportData(Passengers model)
         {
-            // Передаем параметры в представление
-            ViewBag.FlightId = id;
-            ViewBag.SeatNumber = seatNumber;
-            return View();
-        }
+            if (!ModelState.IsValid)
+                return View(model);
 
-        public IActionResult Payment(int id, int seatNumber)
+            var passenger = new Passengers
+            {
+                firstName = model.firstName,
+                lastName = model.lastName,
+                patronymic = model.patronymic,
+                passportData = model.passportData,
+            };
+
+            _context.Passengers.Add(passenger);
+            await _context.SaveChangesAsync();
+
+            // Далее перенаправление на оплату с PassengerId
+            return RedirectToAction("Payment", new { passengerId = passenger.id });
+        } 
+
+
+        [HttpGet]
+        public IActionResult Payment()
         {
-            // Передаем параметры в представление
-            ViewBag.FlightId = id;
-            ViewBag.SeatNumber = seatNumber;
-            return View();
+            return View();  // Отобразить страницу с формой ввода данных
         }
     }
 }

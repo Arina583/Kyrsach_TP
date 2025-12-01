@@ -1,9 +1,8 @@
-﻿@model Company.Models.Flights
+﻿@model Company.Models.Passengers
 
 @{
     ViewData["Title"] = "Купить билет";
     Layout = null;
-    string routeName = $"{Model.Route.cityDeparture.nameStop} - {Model.Route.cityArrival.nameStop}";
 }
 
 <!DOCTYPE html>
@@ -14,15 +13,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
-    <header>Покупка билета на рейс @routeName</header>
+    <header>Покупка билета</header>
 
-    <h3>ВВедите данные для оплаты</h3>
+    <h3>Введите данные для оплаты</h3>
     <hr />
     <main>
-        <div>
-            <p>@Model.</p>
-        </div>
-        <form asp-action="ReserveSeat" asp-controller="Flight" method="post">
+        <form asp-action="Payment" asp-controller="Flight" method="post">
             <label for="card_number">Номер карты:</label><br>
             <input type="text" id="card_number" name="card_number"><br><br>
 
