@@ -56,4 +56,5 @@
                 document.getElementById('seatNumber').value = selectedSeat;
             }
         });
+    });
 });
