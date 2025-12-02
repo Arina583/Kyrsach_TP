@@ -110,7 +110,7 @@ namespace TruckingCompany.Controllers
             // Проверка, что место не занято
             if (await _context.Tickets.AnyAsync(t => t.FlightId == id && t.numberSeat == seatNumber && t.status != "available"))
             {
-                return BadRequest("This seat is currently unavailable.");
+                return BadRequest("В настоящее время это место недоступно.");
             }
 
             if (actionType == "buy")
@@ -124,7 +124,7 @@ namespace TruckingCompany.Controllers
                 TempData["DepartureStopsId"] = departureStopId;
                 if (route == null)
                 {
-                    return BadRequest("Route not found for this flight.");
+                    return BadRequest("Маршрут для этого рейса не найден.");
                 }
 
                 if (route.light > 30)
@@ -145,7 +145,7 @@ namespace TruckingCompany.Controllers
                 var route = await _context.Routes.FindAsync(flight.RouteId);
                 if (route == null)
                 {
-                    return BadRequest("Route not found for this flight.");
+                    return BadRequest("Маршрут для этого рейса не найден.");
                 }
 
                 // Предположим, что в маршруте есть поле DepartureStopId с Id начальной остановки
@@ -158,17 +158,17 @@ namespace TruckingCompany.Controllers
                 {
                     FlightId = id,
                     numberSeat = seatNumber,
-                    price = 0,   // Цена из рейса
+                    price = 0,
                     status = "Забронирован",
                     email = email,
-                    PassengerId = 1,        // Подставьте нужный PassengerId
-                    StopId = departureStopId // Стартовая остановка из маршрута
+                    PassengerId = 1, // Вставляем id универсального пассажира
+                    StopId = departureStopId
                 };
 
                 _context.Tickets.Add(ticket);
                 await _context.SaveChangesAsync();
 
-                /*// Задача на удаление брони через 30 минут
+                /*// Удаление брони через 30 минут
                 Task.Delay(TimeSpan.FromMinutes(30)).ContinueWith(async _ =>
                 {
                     var ticketToDelete = await _context.Tickets.FindAsync(ticket.id);
@@ -182,7 +182,7 @@ namespace TruckingCompany.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return BadRequest("Неизвестный тип действия.");
+            return View();
         }
 
         // Методы для отображения страниц ввода данных и оплаты
@@ -205,15 +205,15 @@ namespace TruckingCompany.Controllers
             // Создаем и сохраняем пассажира с паспортными данными
             var passenger = new Passengers
             {
-                firstName = "null",
-                lastName = "null",
-                patronymic = "null",
+                firstName = " ",
+                lastName = " ",
+                patronymic = " ",
                 passportData = passportData
             };
             _context.Passengers.Add(passenger);
             await _context.SaveChangesAsync();
 
-            // Перенаправляем на оплату, передавая PassengerId и остальные параметры
+            // Перенаправляем на оплату, передавая Id пассажира и остальные параметры
             return RedirectToAction("Payment", new { passengerId = passenger.id, id = id, seatNumber = seatNumber, passportData = passportData, email = email});
         }
 
@@ -224,7 +224,7 @@ namespace TruckingCompany.Controllers
             // Передаем параметры в представление
             ViewBag.Id = id;
             ViewBag.SeatNumber = seatNumber;
-            ViewBag.PassengerId = passengerId; // Может быть null, если перешли без ввода паспортных данных
+            ViewBag.PassengerId = passengerId; // Может быть null, если переход был без ввода паспортных данных
             ViewBag.PassportData = passportData;
             ViewBag.email = email;
             return View();
@@ -254,14 +254,13 @@ namespace TruckingCompany.Controllers
                 passenger.passportData = "";
             }
 
-            // Обновляем личные данные
+            // сохраняем изменения
             await _context.SaveChangesAsync();
 
-            // Здесь код для обработки оплаты (без сохранения данных карты)
+            // Здесь код для обработки оплаты
             // ...
 
-            // После успешной оплаты создаем билет
-
+            // После успешной добавляем купленный билет в бд
             int departureStopId = (int)TempData["DepartureStopsId"];
 
             var ticket = new Tickets
@@ -270,8 +269,8 @@ namespace TruckingCompany.Controllers
                 numberSeat = seatNumber,
                 price = 0,
                 status = "Куплен",
-                PassengerId = passenger.id, // Устанавливаем ID пассажира
-                StopId = departureStopId, // Устанавливаем ID  остановки
+                PassengerId = passenger.id,
+                StopId = departureStopId,
                 email = email,
             };
 
