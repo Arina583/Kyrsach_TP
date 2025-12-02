@@ -10,6 +10,15 @@ builder.Services.AddDbContext<DbClassContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Добавление сервисов аутентификации
+builder.Services.AddAuthentication("Cookies") // Указываем схему аутентификации по умолчанию
+   .AddCookie("Cookies", options => // Конфигурируем опции для CookieAuthentication
+   {
+       options.LoginPath = "/Account/Login"; // Указываем путь к странице входа
+       options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // время жизни куки
+       options.SlidingExpiration = true; // Продлевать куки при каждом запросе
+   });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,16 +30,16 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles(); // Включаем обработку статических файлов
+
 app.UseRouting();
 
+// Добавляем middleware аутентификации и авторизации.  Важно, чтобы они были вызваны после UseRouting и до UseEndpoints
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+   name: "default",
+   pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

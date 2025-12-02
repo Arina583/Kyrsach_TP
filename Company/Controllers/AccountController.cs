@@ -7,62 +7,65 @@ namespace TruckingCompany.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: /Account/Login
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password) // Получаем логин/пароль из формы
+        public async Task<IActionResult> Login(string username, string password)
         {
-            // TODO: Реальная проверка логина и пароля (обычно из базы данных)
-            if (username == "admin" && password == "12345")
+            if (username == "dispatcher" && password == "1234")
             {
-                // Создаем Claims (информация о пользователе)
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, username), // Имя пользователя
-                    //new Claim(ClaimTypes.Role, "Administrator")
+                    new Claim(ClaimTypes.Name, username),
+                    new Claim(ClaimTypes.Role, "Dispatcher") // Добавляем роль
                 };
 
-                // Создаем Identity (представление пользователя для аутентификации)
                 var claimsIdentity = new ClaimsIdentity(
                     claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                // Аутентифицируем пользователя с использованием CookieAuthentication
-                var authProperties = new AuthenticationProperties
-                {
-                    //AllowRefresh = <bool>,
-                    //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10), // Время жизни куки
-                    //IsPersistent = true, // Запомнить пользователя между сессиями
-                    //IssuedUtc = <DateTimeOffset>,
-                    //RedirectUri = <string>
-                };
+                var authProperties = new AuthenticationProperties { IsPersistent = true };
+
                 await HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
 
-                // Перенаправляем на главную страницу после успешной авторизации
-                return RedirectToAction("Index", "Account"); // "Index" - имя метода, "Account" - имя контроллера
+                return RedirectToAction("DispatcherDashboard", "Home"); // Перенаправляем на страницу диспетчера
             }
 
-            // Если авторизация не удалась, возвращаем на страницу логина с сообщением об ошибке
+            if (username == "logist" && password == "12345")
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, username),
+                    new Claim(ClaimTypes.Role, "Logist") // Добавляем роль
+                };
+
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties { IsPersistent = true };
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+
+                return RedirectToAction("LogistPanel", "Home"); // Перенаправляем на страницу диспетчера
+            }
+
             ModelState.AddModelError(string.Empty, "Неверный логин или пароль");
-            return View(); // Возвращаем представление Login.cshtml с ошибками
+            return RedirectToAction("Index", "Home");
         }
 
-        // GET: /Account/Logout
-        public async Task<IActionResult> Logout()
+        /*public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Account"); // Перенаправляем на главную страницу после выхода
-        }
+        }*/
     }
 }

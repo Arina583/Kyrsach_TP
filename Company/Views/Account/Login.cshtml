@@ -21,9 +21,9 @@
                 <button>create</button>
                 <p class="message">Already registered? <a href="#">Sign In</a></p>
             </form>
-            <form class="login-form">
-                <input type="text" placeholder="Логин" />
-                <input type="password" placeholder="Пароль" />
+            <form class="login-form" asp-controller="Account" asp-action="Login" method="post">
+                <input type="text" placeholder="Логин" name="username" />
+                <input type="password" placeholder="Пароль" name="password" />
                 <button>Войти</button>
             </form>
         </div>
