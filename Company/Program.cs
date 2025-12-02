@@ -1,5 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using Company.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,13 +13,24 @@ builder.Services.AddDbContext<DbClassContext>(options =>
 builder.Services.AddControllersWithViews();
 
 // Добавление сервисов аутентификации
-builder.Services.AddAuthentication("Cookies") // Указываем схему аутентификации по умолчанию
-   .AddCookie("Cookies", options => // Конфигурируем опции для CookieAuthentication
-   {
-       options.LoginPath = "/Account/Login"; // Указываем путь к странице входа
-       options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // время жизни куки
-       options.SlidingExpiration = true; // Продлевать куки при каждом запросе
-   });
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Устанавливаем атрибут Secure
+        options.Cookie.SameSite = SameSiteMode.Lax; // Явно указываем SameSiteMode (можно попробовать Lax или None, но None требует Secure=true)
+    });
+
+// Добавление глобального фильтра авторизации, чтобы требовать авторизацию для всех контроллеров по умолчанию
+builder.Services.AddControllersWithViews(options =>
+{
+    var policy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser() // Требуем аутентификацию для всех пользователей
+        .Build();
+    options.Filters.Add(new AuthorizeFilter(policy));
+});
 
 var app = builder.Build();
 

@@ -24,12 +24,6 @@ namespace Company.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Dispatcher")] // Защищаем метод авторизацией по роли
-        public IActionResult DispatcherDashboard()
-        {
-            return View(); // Возвращаем представление с панелью диспетчера
-        }
-
         [Authorize(Roles = "Logist")] // Защищаем метод авторизацией по роли
         public IActionResult LogistPanel()
         {
