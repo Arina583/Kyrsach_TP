@@ -105,3 +105,36 @@ footer.footer {
     right: 0; /* Без отступов справа */
     height: 50px; /* Задаем высоту */
 }
+
+
+
+main {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    select:focus {
+        border-color: #005baa;
+        outline: none;
+    }

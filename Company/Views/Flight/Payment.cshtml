@@ -14,20 +14,47 @@
 </head>
 <body>
     <header>Покупка билета</header>
-
-    <h3>Введите данные для оплаты</h3>
-    <hr />
     <main>
         <form asp-action="Payment" asp-controller="Flight" method="post">
-            <label for="card_number">Номер карты:</label><br>
-            <input type="text" id="card_number" name="card_number"><br><br>
-
-            <label for="expiry_date">Срок действия:</label><br>
-            <input type="month" id="expiry_date" name="expiry_date"><br><br>
-
-            <label for="cvv">CVV:</label><br>
-            <input type="text" id="cvv" name="cvv"><br><br>
-
+            <h3>Введите личные данные</h3>
+            <hr />
+            <input type="hidden" name="id" value="@ViewBag.Id" />
+            <input type="hidden" name="seatNumber" value="@ViewBag.SeatNumber" />
+            <input type="hidden" name="passportData" value="@ViewBag.PassportData" />
+            @if (ViewBag.PassengerId != null)
+            {
+                <input type="hidden" name="passengerId" value="@ViewBag.PassengerId" />
+            }
+            <div>
+                <label for="lastName">Фамилия</label><br>
+                <input type="text" id="lastName" name="lastName"><br><br>
+            </div>
+            <div>
+                <label for="firstName">Имя</label><br>
+                <input type="text" id="firstName" name="firstName"><br><br>
+            </div>
+            <div>
+                <label for="patronymic">Отчество</label><br>
+                <input type="text" id="patronymic" name="patronymic"><br><br>
+            </div>
+            <div>
+                <label for="email">Email</label><br>
+                <input type="email" id="email" name="email"><br><br>
+            </div>
+            <h3>Введите данные для оплаты</h3>
+            <hr />
+            <div>
+                <label for="card_number">Номер карты:</label><br>
+                <input type="text" id="card_number" name="card_number"><br><br>
+            </div>
+            <div>
+                <label for="expiry_date">Срок действия:</label><br>
+                <input type="month" id="expiry_date" name="expiry_date"><br><br>
+            </div>
+            <div>
+                <label for="cvv">CVV:</label><br>
+                <input type="text" id="cvv" name="cvv"><br><br>
+            </div>
             <input type="submit" value="Купить">
         </form>
     </main>

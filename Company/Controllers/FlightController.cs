@@ -1,5 +1,6 @@
 ﻿using Company.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Collections.Generic;
@@ -72,32 +73,31 @@ namespace TruckingCompany.Controllers
             return View(flight);
         }
 
-        public IActionResult BuyTicket(int? id)
+        public async Task<IActionResult> BuyTicket(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var flight = _context.Flights
+            var flight = await _context.Flights
                 .Include(f => f.Route)
                     .ThenInclude(r => r.cityDeparture)
                 .Include(f => f.Route)
                     .ThenInclude(r => r.cityArrival)
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (flight == null)
             {
                 return NotFound();
             }
-
-            var reservedSeats = _context.Tickets
-                .Where(t => t.FlightId == id && t.status == "Забронирован")
+            // Получаем список забронированных мест
+            var reservedSeats = await _context.Tickets
+                .Where(t => t.FlightId == id && (t.status == "Забронирован" || t.status == "Куплен"))
                 .Select(t => t.numberSeat)
-                .ToList();
+                .ToListAsync();
 
-            ViewBag.ReservedSeats = reservedSeats;
-
+            ViewBag.ReservedSeats = reservedSeats; // Передаем список мест в представление
             return View(flight);
         }
 
@@ -117,6 +117,11 @@ namespace TruckingCompany.Controllers
             {
                 // Получаем маршрут и проверяем длину
                 var route = await _context.Routes.FindAsync(flight.RouteId);
+
+                var departureStopId = route.DepartureStopsId;
+
+                // Сохраняем DepartureStopsId в TempData
+                TempData["DepartureStopsId"] = departureStopId;
                 if (route == null)
                 {
                     return BadRequest("Route not found for this flight.");
@@ -125,12 +130,12 @@ namespace TruckingCompany.Controllers
                 if (route.light > 30)
                 {
                     // Перенаправляем на страницу ввода паспортных данных
-                    return RedirectToAction("PassportData", new { id = id, seatNumber = seatNumber });
+                    return RedirectToAction("PassportData", new { id = id, seatNumber = seatNumber, email = email });
                 }
                 else
                 {
                     // Перенаправляем на страницу оплаты
-                    return RedirectToAction("Payment", new { id = id, seatNumber = seatNumber });
+                    return RedirectToAction("Payment", new { id = id, seatNumber = seatNumber, email = email });
                 }
             }
 
@@ -146,11 +151,14 @@ namespace TruckingCompany.Controllers
                 // Предположим, что в маршруте есть поле DepartureStopId с Id начальной остановки
                 var departureStopId = route.DepartureStopsId;
 
+                // Сохраняем DepartureStopsId в TempData
+                TempData["DepartureStopsId"] = departureStopId;
+
                 var ticket = new Tickets
                 {
                     FlightId = id,
                     numberSeat = seatNumber,
-                    price = 215.0,   // Цена из рейса
+                    price = 0,   // Цена из рейса
                     status = "Забронирован",
                     email = email,
                     PassengerId = 1,        // Подставьте нужный PassengerId
@@ -160,7 +168,7 @@ namespace TruckingCompany.Controllers
                 _context.Tickets.Add(ticket);
                 await _context.SaveChangesAsync();
 
-                // Задача на удаление брони через 30 минут
+                /*// Задача на удаление брони через 30 минут
                 Task.Delay(TimeSpan.FromMinutes(30)).ContinueWith(async _ =>
                 {
                     var ticketToDelete = await _context.Tickets.FindAsync(ticket.id);
@@ -169,47 +177,109 @@ namespace TruckingCompany.Controllers
                         _context.Tickets.Remove(ticketToDelete);
                         await _context.SaveChangesAsync();
                     }
-                });
+                });*/
+
                 return RedirectToAction("Index", "Home");
             }
 
             return BadRequest("Неизвестный тип действия.");
         }
 
-
-        /*[HttpGet]
-        public IActionResult PassportData()
-        {
-            return View(new Passengers());  // Отобразить страницу с формой ввода данных
-        }*/
-
         // Методы для отображения страниц ввода данных и оплаты
         [HttpGet]
-        public async Task<IActionResult> PassportData(Passengers model)
+        public IActionResult PassportData(int id, int seatNumber, string email)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            // Передаем параметры в представление, чтобы их можно было использовать при отправке формы
+            ViewBag.Id = id;
+            ViewBag.SeatNumber = seatNumber;
+            ViewBag.Email = email;
+            return View();
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> PassportData(string passport_series, string passport_number, DateTime date_of_birth, int id, int seatNumber, string email)
+        {
+            //Создаем строку passportData
+            string passportData = $"{passport_series} {passport_number} {date_of_birth.ToShortDateString()}";
+
+            // Создаем и сохраняем пассажира с паспортными данными
             var passenger = new Passengers
             {
-                firstName = model.firstName,
-                lastName = model.lastName,
-                patronymic = model.patronymic,
-                passportData = model.passportData,
+                firstName = "null",
+                lastName = "null",
+                patronymic = "null",
+                passportData = passportData
             };
-
             _context.Passengers.Add(passenger);
             await _context.SaveChangesAsync();
 
-            // Далее перенаправление на оплату с PassengerId
-            return RedirectToAction("Payment", new { passengerId = passenger.id });
-        } 
+            // Перенаправляем на оплату, передавая PassengerId и остальные параметры
+            return RedirectToAction("Payment", new { passengerId = passenger.id, id = id, seatNumber = seatNumber, passportData = passportData, email = email});
+        }
 
 
         [HttpGet]
-        public IActionResult Payment()
+        public IActionResult Payment(int id, int seatNumber, string passportData, string email, int? passengerId = null)
         {
-            return View();  // Отобразить страницу с формой ввода данных
+            // Передаем параметры в представление
+            ViewBag.Id = id;
+            ViewBag.SeatNumber = seatNumber;
+            ViewBag.PassengerId = passengerId; // Может быть null, если перешли без ввода паспортных данных
+            ViewBag.PassportData = passportData;
+            ViewBag.email = email;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Payment(string lastName, string firstName, string patronymic, int id, int seatNumber, string passportData, string email, int? passengerId = null)
+        {
+            Passengers passenger;
+            // Если есть PassengerId, значит, паспортные данные уже введены. Иначе, создаем нового пассажира
+            if (passengerId.HasValue)
+            {
+                passenger = await _context.Passengers.FindAsync(passengerId);
+                passenger.firstName = firstName;
+                passenger.lastName = lastName;
+                passenger.patronymic = patronymic;
+                passenger.passportData = passportData;
+                if (passenger == null) return NotFound();
+            }
+            else
+            {
+                passenger = new Passengers();
+                _context.Passengers.Add(passenger);
+                passenger.firstName = firstName;
+                passenger.lastName = lastName;
+                passenger.patronymic = patronymic;
+                passenger.passportData = "";
+            }
+
+            // Обновляем личные данные
+            await _context.SaveChangesAsync();
+
+            // Здесь код для обработки оплаты (без сохранения данных карты)
+            // ...
+
+            // После успешной оплаты создаем билет
+
+            int departureStopId = (int)TempData["DepartureStopsId"];
+
+            var ticket = new Tickets
+            {
+                FlightId = id,
+                numberSeat = seatNumber,
+                price = 0,
+                status = "Куплен",
+                PassengerId = passenger.id, // Устанавливаем ID пассажира
+                StopId = departureStopId, // Устанавливаем ID  остановки
+                email = email,
+            };
+
+            _context.Tickets.Add(ticket);
+            await _context.SaveChangesAsync();
+
+            //После успешной покупки
+            return RedirectToAction("Index", "Home");
         }
     }
 }

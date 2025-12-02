@@ -1,9 +1,9 @@
 ﻿@model Company.Models.Passengers
 
 @{
+
     ViewData["Title"] = "Купить билет";
     Layout = null;
-
 }
 
 <!DOCTYPE html>
@@ -15,21 +15,28 @@
 </head>
 <body>
     <header>Покупка билета</header>
+    <main>
+      <h3>Введите паспортные данные</h3>
+      <hr />
+        <form asp-action="PassportData" asp-controller="Flight" method="post">
+            <input type="hidden" name="id" value="@ViewBag.Id" />
+            <input type="hidden" name="seatNumber" value="@ViewBag.SeatNumber" />
+            <div>
+                <label for="passport_number">Номер паспорта:</label><br>
+                <input type="text" id="passport_number" name="passport_number"><br><br>
+            </div>
+            <div>
+                <label for="passport_series">Серия паспорта:</label><br>
+                <input type="text" id="passport_series" name="passport_series"><br><br>
+            </div>
+            <div>
+                <label for="date_of_birth">Дата рождения:</label><br>
+                <input type="date" id="date_of_birth" name="date_of_birth"><br><br>
+            </div>
 
-    <h3>Введите паспортные данные</h3>
-    <hr />
-    <form asp-action="Payment" asp-controller="Flight" method="post">
-        <label for="passport_number">Номер паспорта:</label><br>
-        <input type="text" id="passport_number" name="passport_number"><br><br>
-
-        <label for="passport_series">Серия паспорта:</label><br>
-        <input type="text" id="passport_series" name="passport_series"><br><br>
-
-        <label for="date_of_birth">Дата рождения:</label><br>
-        <input type="date" id="date_of_birth" name="date_of_birth"><br><br>
-
-        <a href="@Url.Action("Payment", "Flight", new { id = Model.id })" class="btn btn-success">Перейти к оплате</a>
-    </form>
+            <button type="submit" class="btn btn-success">Перейти к оплате</button>
+        </form>
+    </main>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
