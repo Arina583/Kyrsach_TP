@@ -24,12 +24,6 @@ namespace Company.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Logist")] // Защищаем метод авторизацией по роли
-        public IActionResult LogistPanel()
-        {
-            return View(); // Возвращаем представление с панелью диспетчера
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

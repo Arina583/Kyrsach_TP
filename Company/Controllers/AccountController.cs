@@ -8,7 +8,10 @@ namespace TruckingCompany.Controllers
 {
     public class AccountController : Controller
     {
-
+        public IActionResult Index()
+        {
+            return View();
+        }
         public IActionResult Login()
         {
             return View();
@@ -69,7 +72,7 @@ namespace TruckingCompany.Controllers
             }
 
             ModelState.AddModelError(string.Empty, "Неверный логин или пароль");
-            return View("Index");
+            return View("Login");
         }
 
         public async Task<IActionResult> Logout()
@@ -84,14 +87,8 @@ namespace TruckingCompany.Controllers
             return View(); // Возвращаем представление с панелью диспетчера
         }
 
-        [Authorize(Roles = "Dispatcher")] // Защищаем метод авторизацией по роли
-        public IActionResult Sale()
-        {
-            return View();
-        }
-
-        [Authorize(Roles = "Dispatcher")] // Защищаем метод авторизацией по роли
-        public IActionResult ReturnTicket()
+        [Authorize(Roles = "Logist")] // Защищаем метод авторизацией по роли
+        public IActionResult LogistPanel()
         {
             return View();
         }

@@ -23,15 +23,6 @@ builder.Services.AddAuthentication("Cookies")
         options.Cookie.SameSite = SameSiteMode.Lax; // Явно указываем SameSiteMode (можно попробовать Lax или None, но None требует Secure=true)
     });
 
-// Добавление глобального фильтра авторизации, чтобы требовать авторизацию для всех контроллеров по умолчанию
-builder.Services.AddControllersWithViews(options =>
-{
-    var policy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser() // Требуем аутентификацию для всех пользователей
-        .Build();
-    options.Filters.Add(new AuthorizeFilter(policy));
-});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
