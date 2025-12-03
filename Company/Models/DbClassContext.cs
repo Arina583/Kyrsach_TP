@@ -14,6 +14,7 @@ namespace Company.Models
         public DbSet<Stops> Stops { get; set; }
         public DbSet<Flights> Flights { get; set; }
         public DbSet<Routes> Routes { get; set; }
+        public DbSet<PersonalRoles> PersonalRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
