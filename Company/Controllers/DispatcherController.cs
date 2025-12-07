@@ -10,14 +10,28 @@ namespace Company.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Dispatcher")] // Защищаем метод авторизацией по роли
+        [Authorize(Roles = "dispatcher")] // Защищаем метод авторизацией по роли
         public IActionResult Sale()
         {
             return View();
         }
 
-        [Authorize(Roles = "Dispatcher")] // Защищаем метод авторизацией по роли
+        [Authorize(Roles = "dispatcher")] // Защищаем метод авторизацией по роли
         public IActionResult ReturnTicket()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "dispatcher")] // Защищаем метод авторизацией по роли
+        public IActionResult PassportDate()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "dispatcher")] // Защищаем метод авторизацией по роли
+        public IActionResult Payment()
         {
             return View();
         }

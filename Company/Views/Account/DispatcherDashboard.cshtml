@@ -9,17 +9,38 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ПассажирскийПуть</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        .container1 {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+
+        .form-block1 {
+            width: 50%; /* Ширина блоков */
+            border-width: 1;
+            border-style: solid;
+            border-color: white;
+        }
+    </style>
 </head>
 <body>
     <header>Панель диспетчера</header>
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <div class="container1">
+        <div class="form-block1">
+            <button onclick="window.location.href='/Dispatcher/Sale'">Продажа</button>
+        </div>
+        <div class="form-block1">
+            <button onclick="window.location.href='/Dispatcher/ReturnTicket'">Возврат</button>
+        </div>
+    </div>
     <main>
         <nav>
-            <ul>
-                <li><a href="/Dispatcher/Sale">Продажа</a></li>
-                <li><a href="/Dispatcher/ReturnTicket">Возврат</a></li>
-            </ul>
+            <h3>
+                ПассажирскийПуть приветствует вас!
+            </h3>
         </nav>
     </main>
     <footer class="border-top footer text-muted">

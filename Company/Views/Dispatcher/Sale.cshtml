@@ -8,18 +8,91 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ПассажирскийПуть</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        .container1 {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+
+        .form-block {
+            width: 45%; /* Ширина блоков */
+        }
+
+        .form-block1 {
+            width: 50%; /* Ширина блоков */
+            border-width: 1;
+            border-style: solid;
+            border-color: white;
+        }
+    </style>
 </head>
 <body>
     <header>Продажа билетов</header>
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <div class="container1">
+        <div class="form-block1">
+            <button onclick="window.location.href='/Dispatcher/Sale'">Продажа</button>
+        </div>
+        <div class="form-block1">
+            <button onclick="window.location.href='/Dispatcher/ReturnTicket'">Возврат</button>
+        </div>
+    </div>
     <main>
+        <div class="container1">
+            <div class="form-block">
+                <h4>Данные рейса</h4>
+                <label for="departure">Пункт отправления:</label>
+                <input type="text" id="departure" name="departure" required><br>
 
+                <label for="destination">Пункт назначения:</label>
+                <input type="text" id="arrival" name="arrival" required><br>
+
+                <label for="date">Дата отправления:</label>
+                <input type="date" id="date" name="date" required><br>
+
+                <label for="time">Время отправления:</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+            <div class="form-block">
+                <h4>Паспортные данные</h4>
+                <label for="fullname">ФИО:</label>
+                <input type="text" id="fullname" name="fullname" required><br>
+
+                <label for="passport">Номер паспорта:</label>
+                <input type="text" id="passport" name="passport" required><br>
+
+                <label for="passport">Серия паспорта:</label>
+                <input type="text" id="passport" name="passport" required><br>
+
+                <label for="fullname">Дата выдачи:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+        </div>
+        <hr />
+        <div class="container1">
+            <label for="payment">Способ оплаты:</label>
+            <select id="payment" name="payment">
+                <option value="cash">Наличные</option>
+                <option value="card">Карта</option>
+            </select>
+        </div>
+        <hr />
+        <div class="container1">
+            <button onclick="showAlert()">Далее</button>
+        </div>
     </main>
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            © 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    <script>
+        function showAlert() {
+            alert("Оплата прошла! Нажмите, чтобы распечатать билет.");
+        }
+    </script>
 </body>
 </html>
