@@ -1,9 +1,19 @@
 using Company.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Добавьте сервисы аутентификации и авторизации
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; // Укажите путь к странице входа
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Укажите путь к странице отказа в доступе
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Устанавливаем SecurePolicy
+    });
+
+builder.Services.AddAuthorization(); // Добавьте авторизацию
 
 builder.Services.AddDbContext<DbClassContext>(options =>
        options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -11,17 +21,6 @@ builder.Services.AddDbContext<DbClassContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-// Добавление сервисов аутентификации
-builder.Services.AddAuthentication("Cookies")
-    .AddCookie("Cookies", options =>
-    {
-        options.LoginPath = "/Account/Login";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-        options.SlidingExpiration = true;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Устанавливаем атрибут Secure
-        options.Cookie.SameSite = SameSiteMode.Lax; // Явно указываем SameSiteMode (можно попробовать Lax или None, но None требует Secure=true)
-    });
 
 var app = builder.Build();
 

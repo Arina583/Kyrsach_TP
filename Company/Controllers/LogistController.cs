@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Controllers
 {
@@ -9,25 +10,31 @@ namespace Company.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Logist")] // Защищаем метод авторизацией по роли
         public IActionResult Tickets()
         {
             return View();
         }
 
+        [Authorize(Roles = "Logist")] // Защищаем метод авторизацией по роли
         public IActionResult Routes()
         {
             return View();
         }
 
+        [Authorize(Roles = "Logist")] // Защищаем метод авторизацией по роли
         public IActionResult Flights()
         {
             return View();
         }
+
+        [Authorize(Roles = "Logist")] // Защищаем метод авторизацией по роли
         public IActionResult Buses()
         {
             return View();
         }
 
+        [Authorize(Roles = "Logist")] // Защищаем метод авторизацией по роли
         public IActionResult Drivers()
         {
             return View();

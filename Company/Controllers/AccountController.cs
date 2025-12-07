@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Company.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,14 @@ namespace TruckingCompany.Controllers
 {
     public class AccountController : Controller
     {
+
+        private readonly DbClassContext _context;
+
+        public AccountController(DbClassContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -18,76 +27,59 @@ namespace TruckingCompany.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login(string login, string password)
         {
-            // Проверка учетных данных
-            if (username == "dispatcher" && password == "1234")
+            // 1. Проверка наличия пользователя в БД
+            var user = _context.PersonalRoles.FirstOrDefault(u => u.login == login && u.password == password);
+
+            if (user != null)
             {
-                // Создание списка утверждений (Claims) для пользователя
+                // 2. Создание claims для аутентификации
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, username),
-                    new Claim(ClaimTypes.Role, "Dispatcher") // Добавление роли
+                    new Claim(ClaimTypes.Name, user.login),
+                    new Claim(ClaimTypes.Role, user.role)
                 };
 
-                // Создание удостоверения пользователя на основе утверждений
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                // 3. Создание identity
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                // Настройка параметров аутентификации
-                var authProperties = new AuthenticationProperties
+                // 4. Аутентификация пользователя
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                // 5. Редирект на нужную страницу в зависимости от роли
+                if (user.role == "dispatcher")
                 {
-                    IsPersistent = true // Запомнить пользователя между сессиями
-                };
-
-                // Выполнение аутентификации пользователя
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
-
-                // Перенаправление на страницу диспетчера
-                return RedirectToAction("DispatcherDashboard", "Account");
+                    return RedirectToAction("DispatcherDashboard", "Account");
+                }
+                else if (user.role == "logist")
+                {
+                    return RedirectToAction("LogistPanel", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home"); // Редирект на главную, если роль неизвестна
+                }
             }
 
-            if (username == "logist" && password == "12345")
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, username),
-                    new Claim(ClaimTypes.Role, "Logist") // Добавление роли
-                };
-
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                var authProperties = new AuthenticationProperties { IsPersistent = true };
-
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
-
-                return RedirectToAction("LogistPanel", "Account");
-            }
-
-            ModelState.AddModelError(string.Empty, "Неверный логин или пароль");
-            return View("Login");
+            // Если аутентификация не удалась
+            ModelState.AddModelError("", "Неправильный логин или пароль."); // Сообщение об ошибке
+            return View();
         }
 
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account"); // Перенаправляем на главную страницу после выхода
+            return RedirectToAction("Index", "Home");
         }
 
-        [Authorize(Roles = "Dispatcher")] // Защищаем метод авторизацией по роли
+        [Authorize(Roles = "dispatcher")] // Защищаем метод авторизацией по роли
         public IActionResult DispatcherDashboard()
         {
-            return View(); // Возвращаем представление с панелью диспетчера
+            return View();
         }
 
-        [Authorize(Roles = "Logist")] // Защищаем метод авторизацией по роли
+        [Authorize(Roles = "logist")] // Защищаем метод авторизацией по роли
         public IActionResult LogistPanel()
         {
             return View();
