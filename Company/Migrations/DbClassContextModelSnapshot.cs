@@ -161,11 +161,23 @@ namespace Company.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<string>("firstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("lastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("login")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("patronymic")
                         .IsRequired()
                         .HasColumnType("longtext");
 

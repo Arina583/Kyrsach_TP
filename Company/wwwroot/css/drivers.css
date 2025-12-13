@@ -1,0 +1,78 @@
+﻿/* Кастомизация стилей */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: #f4f7f8;
+    color: #333;
+}
+
+header {
+    background: #004580;
+    background: rgb(0,69,128);
+    background: linear-gradient(90deg, rgba(0,69,128,1) 0%, rgba(0,91,170,1) 50%);
+    color: white;
+    padding: 20px 30px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+main {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #007bff; /* Синий цвет заголовков */
+    color: white;
+}
+
+/* Стиль для кнопок */
+.btn-action {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #007bff; /* Синий цвет кнопок */
+    border-color: #007bff;
+    text-decoration: none;
+}
+
+    .btn-action:hover {
+        background-color: #0056b3; /* Более темный синий при наведении */
+        border-color: #0056b3;
+    }
+
+footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed; /* Подвал как приклеенный */
+    bottom: 0; /* Фиксация снизу */
+    left: 0; /* К началу слева */
+    right: 0; /* Без отступов справа */
+    height: 50px; /* Задаем высоту */
+}

@@ -3,6 +3,7 @@ body {
     margin: 0;
     background: #f4f7f8;
     color: #333;
+    padding-bottom: 60px;
 }
 
 header {
@@ -28,7 +29,7 @@ header a {
 }
 
 main {
-    max-width: 600px;
+    max-width: 800px;
     margin: 40px auto;
     background: white;
     padding: 30px 40px;

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Company.Migrations
 {
     [DbContext(typeof(DbClassContext))]
-    [Migration("20251202224322_InitialCreate")]
+    [Migration("20251211145223_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -164,11 +164,23 @@ namespace Company.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<string>("firstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("lastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("login")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("patronymic")
                         .IsRequired()
                         .HasColumnType("longtext");
 

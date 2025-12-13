@@ -9,13 +9,86 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ПассажирскийПуть</title>
+    <style>
+        .container1 {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+
+        .form-block1 {
+            width: 50%; /* Ширина блоков */
+            border-width: 1;
+            border-style: solid;
+            border-color: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            background-color: #005baa;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: #003d80;
+            }
+    </style>
 </head>
 <body>
     <header>Панель логиста</header>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/drivers.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <div class="container1">
+        <div class="form-block1">
+            <button onclick="window.location.href='/Logist/Drivers'">Водители</button>
+        </div>
+        <div class="form-block1">
+            <button onclick="window.location.href='/Logist/Buses'">Автобусы</button>
+        </div>
+        <div class="form-block1">
+            <button onclick="window.location.href='/Logist/Schedule'">Расписание</button>
+        </div>
+        <div class="form-block1">
+            <button onclick="window.location.href='/Logist/Report'">Отчеты</button>
+        </div>
+    </div>
     <main>
+        <p>
+            <a asp-action="AddBus" class="btn-action">Добавить данные по новому автобусу</a>
+        </p>
 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ГосНомер</th>
+                    <th>Кол-во мест</th>
+                    <th>Статус</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bus in Model)
+                {
+                    <tr>
+                        <td>@bus.stateNumber</td>
+                        <td>@bus.numberSeat</td>
+                        <td>@bus.status</td>
+                        <td>
+                            <a asp-action="EditBus" asp-route-id="@bus.id" class="btn-action">Редактировать</a> |
+                            <a asp-action="DeleteBus" asp-route-id="@bus.id" class="btn-action">Удалить</a> |
+                            <a asp-action="#" asp-route-id="@bus.id" class="btn-action">Назначить на рейс</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </main>
     <footer class="border-top footer text-muted">
         <div class="container">
