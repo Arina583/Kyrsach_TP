@@ -243,13 +243,14 @@ namespace Company.Controllers
 
             return View(flight);
         }
-        // Метод для добавления нового автобуса (отображение формы)
+
+        // Метод для добавления нового автобуса
         public IActionResult AddBus()
         {
-            return View(); // Создайте представление AddBus.cshtml
+            return View();
         }
 
-        // Метод для добавления нового автобуса (обработка POST-запроса)
+        // Метод для добавления нового автобуса
         [HttpPost]
         public IActionResult AddBus(Buses bus)
         {
@@ -259,7 +260,7 @@ namespace Company.Controllers
             return RedirectToAction("Buses");
         }
 
-        // Метод для редактирования автобуса (отображение формы)
+        // Метод для редактирования автобуса
         public IActionResult EditBus(int id)
         {
             Buses bus = _context.Buses.FirstOrDefault(b => b.id == id);
@@ -267,10 +268,10 @@ namespace Company.Controllers
             {
                 return NotFound();
             }
-            return View(bus); // Создайте представление EditBus.cshtml
+            return View(bus);
         }
 
-        // Метод для редактирования автобуса (обработка POST-запроса)
+        // Метод для редактирования автобуса
         [HttpPost]
         public IActionResult EditBus(Buses bus)
         {
@@ -290,7 +291,7 @@ namespace Company.Controllers
             return RedirectToAction("Buses");
         }
 
-        // Метод для удаления автобуса
+        // Методы для удаления автобуса
         [HttpGet]
         public IActionResult DeleteBus(int id)
         {
@@ -308,6 +309,76 @@ namespace Company.Controllers
             _context.Remove(buses);
             _context.SaveChanges();
             return RedirectToAction("Buses");
+        }
+
+        // Метод для добавления нового водителя
+        public IActionResult AddDriver()
+        {
+            return View();
+        }
+
+        // Метод для добавления нового водителя
+        [HttpPost]
+        public IActionResult AddDriver(Drivers driver)
+        {
+
+            _context.Add(driver);
+            _context.SaveChanges();
+            return RedirectToAction("Drivers");
+        }
+
+        // Метод для редактирования данный водителя
+        public IActionResult EditDriver(int id)
+        {
+            Drivers driver = _context.Drivers.FirstOrDefault(b => b.id == id);
+            if (driver == null)
+            {
+                return NotFound();
+            }
+            return View(driver);
+        }
+
+        // Метод для редактирования данных водителя
+        [HttpPost]
+        public IActionResult EditDriver(Drivers driver)
+        {
+            Drivers existingDriver = _context.Drivers.FirstOrDefault(d => d.id == driver.id);
+            if (existingDriver == null)
+            {
+                return NotFound();
+            }
+
+            existingDriver.firstName = driver.firstName;
+            existingDriver.lastName = driver.lastName;
+            existingDriver.patronymic = driver.patronymic;
+            existingDriver.driverLicense = driver.driverLicense;
+            existingDriver.contactInformation = driver.contactInformation;
+            existingDriver.status = driver.status;
+
+            _context.Update(existingDriver);
+            _context.SaveChanges();
+
+            return RedirectToAction("Drivers");
+        }
+
+        // Методы для удаления водителя
+        [HttpGet]
+        public IActionResult DeleteDriver(int id)
+        {
+            Drivers driver = _context.Drivers.FirstOrDefault(b => b.id == id);
+            if (driver == null)
+            {
+                return NotFound();
+            }
+            return View(driver);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteDriver(Drivers drivers)
+        {
+            _context.Remove(drivers);
+            _context.SaveChanges();
+            return RedirectToAction("Drivers");
         }
     }
 }

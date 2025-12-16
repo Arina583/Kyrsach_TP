@@ -1,6 +1,6 @@
-﻿@model Company.Models.Buses;
+﻿@model Company.Models.Drivers;
 @{
-    ViewData["Title"] = "Создание";
+    ViewData["Title"] = "Добавление";
     Layout = null;
 }
 
@@ -28,18 +28,31 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <div class="container mt-4">
         <h1>@ViewData["Title"]</h1>
-        <form asp-action="AddBus" method="post">
+        <form asp-action="EditDriver" method="post">
+            <input type="hidden" asp-for="id" />
             <div class="mb-3">
-                <label asp-for="stateNumber">Гос. номер:</label>
-                <input asp-for="stateNumber" class="form-control" />
+                <label asp-for="firstName">Фамилия:</label>
+                <input asp-for="firstName" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="lastName">Имя:</label>
+                <input asp-for="lastName" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="patronymic">Отчество:</label>
+                <input asp-for="patronymic" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="driverLicense">Номер водительского удостоверения:</label>
+                <input asp-for="driverLicense" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="contactInformation">Контактная информация(номер телефона):</label>
+                <input asp-for="contactInformation" class="form-control" />
             </div>
             <div class="mb-3">
                 <label asp-for="status">Статус:</label>
                 <input asp-for="status" class="form-control" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="numberSeat">Кол-во посадочных мест:</label>
-                <input asp-for="numberSeat" class="form-control" />
             </div>
             <button type="submit" class="btn btn-primary">Сохранить</button>
         </form>

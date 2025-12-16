@@ -1,6 +1,6 @@
-﻿@model Company.Models.Buses;
+﻿@model Company.Models.Drivers;
 @{
-    ViewData["Title"] = "Создание";
+    ViewData["Title"] = "Удаление";
     Layout = null;
 }
 
@@ -9,6 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <title>ПассажирскийПуть</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <style>
         footer {
             text-align: center;
@@ -22,27 +23,23 @@
             right: 0; /* Без отступов справа */
             height: 50px; /* Задаем высоту */
         }
+
+        h1 {
+            align-content: center;
+        }
     </style>
 </head>
 <body>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <div class="container mt-4">
         <h1>@ViewData["Title"]</h1>
-        <form asp-action="AddBus" method="post">
-            <div class="mb-3">
-                <label asp-for="stateNumber">Гос. номер:</label>
-                <input asp-for="stateNumber" class="form-control" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="status">Статус:</label>
-                <input asp-for="status" class="form-control" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="numberSeat">Кол-во посадочных мест:</label>
-                <input asp-for="numberSeat" class="form-control" />
-            </div>
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-        </form>
+        <div class="mb-3">
+            <p>Вы уверены, что хотите удалить водителя @Model.firstName @Model.lastName @Model.patronymic?</p>
+            <form asp-action="DeleteDriver" method="post">
+                <input type="hidden" asp-for="id" />
+                <button type="submit" class="btn btn-danger">Удалить</button>
+                <a asp-action="Buses" class="btn btn-secondary">Отмена</a>
+            </form>
+        </div>
     </div>
     <footer class="border-top footer text-muted">
         <div class="container">
