@@ -127,7 +127,7 @@ namespace TruckingCompany.Controllers
                     return BadRequest("Маршрут для этого рейса не найден.");
                 }
 
-                if (route.light > 30)
+                if (route.length > 30)
                 {
                     // Перенаправляем на страницу ввода паспортных данных
                     return RedirectToAction("PassportData", new { id = id, seatNumber = seatNumber, email = email });
@@ -158,9 +158,7 @@ namespace TruckingCompany.Controllers
                 {
                     FlightId = id,
                     numberSeat = seatNumber,
-                    price = 0,
                     status = "Забронирован",
-                    email = email,
                     PassengerId = 1, // Вставляем id универсального пассажира
                     StopId = departureStopId
                 };
@@ -208,7 +206,8 @@ namespace TruckingCompany.Controllers
                 firstName = " ",
                 lastName = " ",
                 patronymic = " ",
-                passportData = passportData
+                passportData = passportData,
+                email = " "
             };
             _context.Passengers.Add(passenger);
             await _context.SaveChangesAsync();
@@ -242,6 +241,7 @@ namespace TruckingCompany.Controllers
                 passenger.lastName = lastName;
                 passenger.patronymic = patronymic;
                 passenger.passportData = passportData;
+                passenger.email = email;
                 if (passenger == null) return NotFound();
             }
             else
@@ -252,6 +252,7 @@ namespace TruckingCompany.Controllers
                 passenger.lastName = lastName;
                 passenger.patronymic = patronymic;
                 passenger.passportData = "";
+                passenger.email = email;
             }
 
             // сохраняем изменения
@@ -267,11 +268,9 @@ namespace TruckingCompany.Controllers
             {
                 FlightId = id,
                 numberSeat = seatNumber,
-                price = 0,
                 status = "Куплен",
                 PassengerId = passenger.id,
                 StopId = departureStopId,
-                email = email,
             };
 
             _context.Tickets.Add(ticket);

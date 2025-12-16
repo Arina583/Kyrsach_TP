@@ -4,7 +4,7 @@
     {
         public int id { get; set; }
         public string intermediateStops { get; set; }
-        public float light { get; set; }
+        public float length { get; set; }
 
         // Навигационное свойство для города отправления
         public Stops? cityDeparture { get; set; }

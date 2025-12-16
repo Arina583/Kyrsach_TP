@@ -103,6 +103,9 @@ namespace Company.Migrations
                     b.Property<int>("numberFlight")
                         .HasColumnType("int");
 
+                    b.Property<double>("price")
+                        .HasColumnType("double");
+
                     b.Property<string>("status")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -131,6 +134,10 @@ namespace Company.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("firstName")
                         .IsRequired()
@@ -208,7 +215,7 @@ namespace Company.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<float>("light")
+                    b.Property<float>("length")
                         .HasColumnType("float");
 
                     b.HasKey("id");
@@ -236,9 +243,6 @@ namespace Company.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<TimeOnly>("timeParking")
-                        .HasColumnType("time(6)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Stops");
@@ -261,15 +265,8 @@ namespace Company.Migrations
                     b.Property<int>("StopId")
                         .HasColumnType("int");
 
-                    b.Property<string>("email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("numberSeat")
                         .HasColumnType("int");
-
-                    b.Property<double>("price")
-                        .HasColumnType("double");
 
                     b.Property<string>("status")
                         .IsRequired()

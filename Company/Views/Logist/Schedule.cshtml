@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <style>
         div {
-            margin-bottom: 80px;
+            margin-bottom: 10px;
         }
         table {
             width: 100%;
@@ -97,14 +97,15 @@
                         <td>@flight.status</td>
                         <td>
                             @*Кнопки для редактирования и удаления*@
-                            <a href="@Url.Action("EditSchedule", "Logist", new { id = flight.Id })">Редактировать рейс</a>
+                            <a href="@Url.Action("EditSchedule", "Schedule", new { id = flight.Id })">Редактировать рейс</a> |
+                            <a href="@Url.Action("DeleteSchedule", "Schedule", new { id = flight.Id })">Удалить рейсс</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
         @* Кнопки для создания нового рейса *@
-        <a href="@Url.Action("CreateSchedule", "Logist")">Создать новый рейс</a>
+        <a href="@Url.Action("CreateSchedule", "Schedule")">Создать новый рейс</a>
     </div>
 
     <footer class="border-top footer text-muted">

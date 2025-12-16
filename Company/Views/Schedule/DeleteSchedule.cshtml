@@ -1,0 +1,51 @@
+﻿@model Company.Models.Flights;
+@{
+    ViewData["Title"] = "Удаление";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>ПассажирскийПуть</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed; /* Подвал как приклеенный */
+            bottom: 0; /* Фиксация снизу */
+            left: 0; /* К началу слева */
+            right: 0; /* Без отступов справа */
+            height: 50px; /* Задаем высоту */
+        }
+
+        h1 {
+            align-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Удаление рейса №@Model.numberFlight</h1>
+        <div class="mb-3">
+            <p>Вы уверены, что хотите удалить рейс?</p>
+            <form asp-action="DeleteSchedule" method="post">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">Удалить</button>
+                <a href="@Url.Action("Schedule", "Logist")" class="btn btn-secondary">Отмена</a>
+            </form>
+        </div>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

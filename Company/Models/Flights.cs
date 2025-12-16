@@ -6,6 +6,7 @@
         public int numberFlight { get; set; }
         public TimeOnly timeDeparture { get; set; }
         public TimeOnly timeArrival { get; set; }
+        public double price { get; set; }
         public string status { get; set; }
 
         //связи между моделями

@@ -71,6 +71,8 @@ namespace Company.Migrations
                     patronymic = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     passportData = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -113,8 +115,7 @@ namespace Company.Migrations
                     nameStop = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     address = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    timeParking = table.Column<TimeOnly>(type: "time(6)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -130,7 +131,7 @@ namespace Company.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     intermediateStops = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    light = table.Column<float>(type: "float", nullable: false),
+                    length = table.Column<float>(type: "float", nullable: false),
                     DepartureStopsId = table.Column<int>(type: "int", nullable: false),
                     ArrivalStopsId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -161,6 +162,7 @@ namespace Company.Migrations
                     numberFlight = table.Column<int>(type: "int", nullable: false),
                     timeDeparture = table.Column<TimeOnly>(type: "time(6)", nullable: false),
                     timeArrival = table.Column<TimeOnly>(type: "time(6)", nullable: false),
+                    price = table.Column<double>(type: "double", nullable: false),
                     status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RouteId = table.Column<int>(type: "int", nullable: false),
@@ -198,10 +200,7 @@ namespace Company.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     numberSeat = table.Column<int>(type: "int", nullable: false),
-                    price = table.Column<double>(type: "double", nullable: false),
                     status = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FlightId = table.Column<int>(type: "int", nullable: false),
                     PassengerId = table.Column<int>(type: "int", nullable: false),

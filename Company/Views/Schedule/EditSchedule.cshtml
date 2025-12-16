@@ -1,0 +1,89 @@
+﻿@model Company.Models.Flights
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Редактирование</h1>
+        <form asp-action="EditSchedule" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Номер рейса -->
+            <div class="mb-3">
+                <label asp-for="numberFlight" class="control-label">Номер рейса</label>
+                <input asp-for="numberFlight" class="form-control" required />
+                <span asp-validation-for="numberFlight" class="text-danger"></span>
+            </div>
+
+            <!-- Время отправления -->
+            <div class="mb-3">
+                <label asp-for="timeDeparture" class="control-label">Время отправления</label>
+                <input asp-for="timeDeparture" class="form-control" type="time" required />
+                <span asp-validation-for="timeDeparture" class="text-danger"></span>
+            </div>
+
+            <!-- Время прибытия -->
+            <div class="mb-3">
+                <label asp-for="timeArrival" class="control-label">Время прибытия</label>
+                <input asp-for="timeArrival" class="form-control" type="time" required />
+                <span asp-validation-for="timeArrival" class="text-danger"></span>
+            </div>
+
+            <!-- Статус рейса -->
+            <div class="mb-3">
+                <label asp-for="status" class="control-label">Статус рейса</label>
+                <select asp-for="status" class="form-control" required>
+                    <option disabled selected>Выберите статус...</option>
+                    <option value="Завершен">Завершен</option>
+                    <option value="Планируется">Планируется</option>
+                    <option value="Скоро отходит">Скоро отходит</option>
+                </select>
+                <span asp-validation-for="status" class="text-danger"></span>
+            </div>
+
+            <!-- Связанные сущности: маршруты, автобусы, водители -->
+            <div class="mb-3">
+                <label asp-for="RouteId" class="control-label">Маршрут</label>
+                <select asp-for="RouteId" class="form-control"
+                        asp-items="@(((IEnumerable<Routes>)ViewBag.Routes).Select(r => new SelectListItem($"{r.cityDeparture.nameStop}-{r.cityArrival.nameStop}", r.id.ToString())))">
+                    <option disabled selected>Выберите маршрут...</option>
+                </select>
+                <span asp-validation-for="RouteId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="BusId" class="control-label">Автобус</label>
+                <select asp-for="BusId" class="form-control"
+                        asp-items="@((IEnumerable<Buses>)ViewBag.Buses).Select(b => new SelectListItem() { Text = b.stateNumber, Value = b.id.ToString() })">
+                    <option disabled selected>Выберите автобус...</option>
+                </select>
+                <span asp-validation-for="BusId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DriverId" class="control-label">Водитель</label>
+                <select asp-for="DriverId" class="form-control"
+                        asp-items="@((IEnumerable<Drivers>)ViewBag.Drivers).Select(d => new SelectListItem() { Text = d.firstName, Value = d.id.ToString() })">
+                    <option disabled selected>Выберите водителя...</option>
+                </select>
+                <span asp-validation-for="DriverId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
