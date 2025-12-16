@@ -97,14 +97,14 @@
                         <td>@flight.status</td>
                         <td>
                             @*Кнопки для редактирования и удаления*@
-                            <a asp-action="#" asp-route-id="@flight.Id">Редактировать рейс</a>
+                            <a href="@Url.Action("EditSchedule", "Logist", new { id = flight.Id })">Редактировать рейс</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
         @* Кнопки для создания нового рейса *@
-        <a asp-action="Create">Создать новый рейс</a>
+        <a href="@Url.Action("CreateSchedule", "Logist")">Создать новый рейс</a>
     </div>
 
     <footer class="border-top footer text-muted">

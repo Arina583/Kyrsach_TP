@@ -1,0 +1,84 @@
+﻿@model Company.Models.Flights
+
+@{
+    ViewData["Title"] = "Редактировать рейс";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>@ViewData["Title"]</h1>
+
+        <form asp-action="Edit" asp-controller="Logist" method="post">
+            <input type="hidden" name="Id" />
+
+            <div class="mb-3">
+                <label name="numberFlight" class="form-label">Номер рейса:</label>
+                <input name="numberFlight" class="form-control" />
+                <span asp-validation-for="numberFlight" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Место отправления:</label>
+                <select class="form-select" id="cityDepartureId" name="cityDepartureId">
+                    @foreach (var stop in (List<Stops>)ViewBag.Stops)
+                    {
+                        if (stop.Id == Model.Route.DepartureStopsId)
+                        {
+                            <option value="@stop.Id" selected>@stop.nameStop</option>
+                        }
+                        else
+                        {
+                            <option value="@stop.Id">@stop.nameStop</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Место прибытия:</label>
+                <select class="form-select" id="cityArrivalId" name="cityArrivalId">
+                    @foreach (var stop in (List<Stops>)ViewBag.Stops)
+                    {
+                        if (stop.Id == Model.Route.ArrivalStopsId)
+                        {
+                            <option value="@stop.Id" selected>@stop.nameStop</option>
+                        }
+                        else
+                        {
+                            <option value="@stop.Id">@stop.nameStop</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label name="timeDeparture" class="form-label">Время отправления:</label>
+                <input name="timeDeparture" type="time" class="form-control" />
+                <span asp-validation-for="timeDeparture" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label name="timeArrival" class="form-label">Время прибытия:</label>
+                <input name="timeArrival" type="time" class="form-control" />
+                <span asp-validation-for="timeArrival" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="IntermediateStops" class="form-label">Промежуточные остановки маршрута:</label>
+                <textarea class="form-control" id="IntermediateStops" name="IntermediateStops" rows="3">@Model.Route.intermediateStops</textarea>
+                <small class="form-text text-muted">Введите список остановок</small>
+            </div>
+
+            <input type="submit" class="btn btn-primary" />
+        </form>
+    </div>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

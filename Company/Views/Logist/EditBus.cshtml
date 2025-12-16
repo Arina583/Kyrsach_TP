@@ -1,0 +1,55 @@
+﻿@model Company.Models.Buses;
+@{
+    ViewData["Title"] = "Редактирование";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>ПассажирскийПуть</title>
+    <style>
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed; /* Подвал как приклеенный */
+            bottom: 0; /* Фиксация снизу */
+            left: 0; /* К началу слева */
+            right: 0; /* Без отступов справа */
+            height: 50px; /* Задаем высоту */
+        }
+    </style>
+</head>
+<body>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <div class="container mt-4">
+        <h1>@ViewData["Title"]</h1>
+        <form asp-action="EditBus" method="post">
+            <input type="hidden" asp-for="id" />
+            <div class="mb-3">
+                <label asp-for="stateNumber">Гос. номер:</label>
+                <input asp-for="stateNumber" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="status">Статус:</label>
+                <input asp-for="status" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="numberSeat">Кол-во посадочных мест:</label>
+                <input asp-for="numberSeat" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

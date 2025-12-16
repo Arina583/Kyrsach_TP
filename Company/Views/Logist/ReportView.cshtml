@@ -77,18 +77,13 @@
         </div>
     </div>
     <main>
-        <form id="report-form" method="post" asp-action="GenerateReport" asp-controller="Logist">
-            <label for="departure">Откуда:</label>
-            <select id="departure" name="departure" required asp-items="@ViewBag.DepartureCities"></select>
-
-            <label for="destination">Куда:</label>
-            <select id="destination" name="destination" required asp-items="@ViewBag.DestinationCities"></select>
-
-            <label for="departure-time">Время отправления:</label>
-            <select id="departure-time" name="departureTime" required asp-items="@ViewBag.DepartureTimes"></select>
-
-            <button type="submit">Сформировать отчет</button>
-        </form>
+        <div class="report-header">Отчет о рейсе</div>
+        <div>@Model.ReisInfo</div>
+        <div>@Model.Time</div>
+        <div>@Model.Route</div>
+        <div>Количество купленных билетов: @Model.BiletCount</div>
+        <div>Купленные места: @Model.SeatNumbers</div>
+        <button onclick="printReport()">Распечатать отчет</button>
     </main>
     <footer class="border-top footer text-muted">
         <div class="container">
@@ -96,7 +91,13 @@
         </div>
     </footer>
     <script>
-
+            function printReport() {
+            var printContents = document.querySelector('.report-header').parentNode.outerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
     </script>
 </body>
 </html>
