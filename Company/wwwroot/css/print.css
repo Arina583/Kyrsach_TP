@@ -1,0 +1,40 @@
+﻿@media print {
+    * {
+        box-sizing: border-box;
+    }
+
+    header, nav, aside, footer, .container1 {
+        display: none !important; /* Скрываем элементы, не относящиеся к отчету */
+    }
+
+    main {
+        max-width: 100%;
+        overflow-x: hidden;
+        page-break-inside: avoid; /* Предотвращает разрыв элемента между страницами */
+    }
+
+    div.report-header {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    p, span, div {
+        line-height: 1.5;
+        font-size: 14pt;
+    }
+
+    table, th, td {
+        border-collapse: collapse;
+        border: 1px solid black;
+        padding: 5px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    thead {
+        font-weight: bold;
+    }
+}

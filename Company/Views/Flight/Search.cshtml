@@ -37,7 +37,16 @@
                                 </div>
                                 <div class="card-footer d-flex justify-content-between">
                                     <a href="@Url.Action("Details", "Flight", new { id = flight.Id })" class="btn btn-primary">Подробнее</a>
-                                    <a href="@Url.Action("BuyTicket", "Flight", new { id = flight.Id })" class="btn btn-success">Купить билет</a>
+                                    <!-- Проверяем статус -->
+                                    @if (flight.status == "Завершен")
+                                    {
+                                        // Отключаем кнопку и добавляем атрибут data-toggle="tooltip"
+                                        <button type="button" class="btn btn-success disabled" title="Этот рейс завершён.">Купить билет</button>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("BuyTicket", "Flight", new { id = flight.Id })" class="btn btn-success">Купить билет</a>
+                                    }
                                 </div>
                             </div>
                         </div>

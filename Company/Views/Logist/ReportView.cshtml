@@ -60,6 +60,7 @@
 </head>
 <body>
     <header>Панель логиста</header>
+    <link rel="stylesheet" href="~/css/print.css" media="print" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <div class="container1">
@@ -83,7 +84,7 @@
         <div>@Model.Route</div>
         <div>Количество купленных билетов: @Model.BiletCount</div>
         <div>Купленные места: @Model.SeatNumbers</div>
-        <button onclick="printReport()">Распечатать отчет</button>
+        <button id="print-btn">Распечатать отчёт</button>
     </main>
     <footer class="border-top footer text-muted">
         <div class="container">
@@ -91,13 +92,13 @@
         </div>
     </footer>
     <script>
-            function printReport() {
-            var printContents = document.querySelector('.report-header').parentNode.outerHTML;
-            var originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const printBtn = document.getElementById('print-btn');
+
+            printBtn.onclick = () => {
+                window.print(); // Запускаем стандартную процедуру печати браузера
+            };
+        });
     </script>
 </body>
 </html>

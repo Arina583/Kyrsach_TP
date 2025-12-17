@@ -25,7 +25,7 @@
         <input type="hidden" id="email" name="email" value="" />
 
         <div class="seat-grid">
-            @for (int i = 1; i <= 39; i++)
+            @for (int i = 1; i <= ViewBag.NumberOfSeats; i++)
             {
                 string seatClass = "seat";
                 if (ViewBag.ReservedSeats != null && ViewBag.ReservedSeats.Contains(i))

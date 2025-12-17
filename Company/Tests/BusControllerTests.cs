@@ -23,6 +23,12 @@ namespace Company.Tests
         #region Тестирование метода AddBus
 
         [Test]
+        public void Test1()
+        {
+            Assert.Equals(42, 42);
+        }
+
+        [Test]
         public void AddBus_ModelIsValid_ReturnsRedirect()
         {
             // Арранжем
