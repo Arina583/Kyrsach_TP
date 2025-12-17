@@ -1,0 +1,37 @@
+﻿@model Company.Models.Tickets;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ПассажирскийПуть</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <header>Продажа билетов</header>
+    <main>
+        <div class="container">
+            <h1>Билет № @Model.id</h1>
+            <p>Рейс: @Model.Flight.numberFlight</p>
+            <p>Отправление: @Model.Flight.Route.cityDeparture.nameStop</p>
+            <p>Назначение: @Model.Flight.Route.cityArrival.nameStop</p>
+            <p>Дата отправления: @Model.Flight.timeDeparture</p>
+            <p>Место: @Model.numberSeat</p>
+            <p>Цена: @Model.Flight.price руб.</p>
+            <p>Пассажир: @Model.Passenger.lastName @Model.Passenger.firstName @Model.Passenger.patronymic</p>
+            <p>E-mail: @Model.Passenger.email</p>
+
+            <button onclick="window.print()">Распечатать билет</button>
+        </div>
+    </main>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            © 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>

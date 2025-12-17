@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Company.ViewsModels.SaleViewModels;
+@{
     Layout = null;
 }
 
@@ -31,57 +32,56 @@
 </head>
 <body>
     <header>Продажа билетов</header>
-    <div class="container1">
-        <div class="form-block1">
-            <button onclick="window.location.href='/Dispatcher/Sale'">Продажа</button>
+    <form asp-action="Sale" method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Покупка билета</h4>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Passenger.firstName)
+                @Html.TextBoxFor(m => m.Passenger.firstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Passenger.firstName)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Passenger.lastName)
+                @Html.TextBoxFor(m => m.Passenger.lastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Passenger.lastName)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Passenger.patronymic)
+                @Html.TextBoxFor(m => m.Passenger.patronymic, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Passenger.patronymic)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Passenger.passportData)
+                @Html.TextBoxFor(m => m.Passenger.passportData, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Passenger.passportData)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Passenger.email)
+                @Html.TextBoxFor(m => m.Passenger.email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Passenger.email)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Flight.Id)
+                @Html.DropDownListFor(m => m.Flight.Id, Model.AvailableFlights, "-- Выберите рейс --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Flight.Id)
+            </div>
+
+            <input type="submit" value="Купить билет" class="btn btn-primary" />
         </div>
-        <div class="form-block1">
-            <button onclick="window.location.href='/Dispatcher/ReturnTicket'">Возврат</button>
+
+        <div class="col-md-6">
+            <p><strong>Заглушка:</strong></p>
+            <img src="/images/sale_stub.png" alt="Заставка продажа билетов" style="max-width: 100%;" />
         </div>
     </div>
-    <main>
-        <div class="container1">
-            <div class="form-block">
-                <h4>Данные рейса</h4>
-                <label for="departure">Пункт отправления:</label>
-                <input type="text" id="departure" name="departure" required><br>
-
-                <label for="destination">Пункт назначения:</label>
-                <input type="text" id="arrival" name="arrival" required><br>
-
-                <label for="date">Дата отправления:</label>
-                <input type="date" id="date" name="date" required><br>
-
-                <label for="time">Время отправления:</label>
-                <input type="time" id="time" name="time" required>
-            </div>
-            <div class="form-block">
-                <h4>Паспортные данные</h4>
-                <label for="fullname">ФИО:</label>
-                <input type="text" id="fullname" name="fullname" required><br>
-
-                <label for="passport">Номер паспорта:</label>
-                <input type="text" id="passport" name="passport" required><br>
-
-                <label for="passport">Серия паспорта:</label>
-                <input type="text" id="passport" name="passport" required><br>
-
-                <label for="fullname">Дата выдачи:</label>
-                <input type="date" id="date" name="date" required>
-            </div>
-        </div>
-        <hr />
-        <div class="container1">
-            <label for="payment">Способ оплаты:</label>
-            <select id="payment" name="payment">
-                <option value="cash">Наличные</option>
-                <option value="card">Карта</option>
-            </select>
-        </div>
-        <hr />
-        <div class="container1">
-            <button onclick="showAlert()">Далее</button>
-        </div>
+    </form>
     </main>
     <footer class="border-top footer text-muted">
         <div class="container">
