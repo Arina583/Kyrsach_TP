@@ -1,4 +1,5 @@
 ﻿using Company.Models;
+using Company.Tests;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +17,7 @@ namespace TruckingCompany.Controllers
         {
             _context = context;
         }
+
 
         public IActionResult Index()
         {

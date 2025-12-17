@@ -85,12 +85,14 @@ namespace TruckingCompany.Controllers
                     .ThenInclude(r => r.cityDeparture)
                 .Include(f => f.Route)
                     .ThenInclude(r => r.cityArrival)
+                .Include(f => f.Bus)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (flight == null)
             {
                 return NotFound();
             }
+
             // Получаем список забронированных мест
             var reservedSeats = await _context.Tickets
                 .Where(t => t.FlightId == id && (t.status == "Забронирован" || t.status == "Куплен"))
@@ -98,6 +100,8 @@ namespace TruckingCompany.Controllers
                 .ToListAsync();
 
             ViewBag.ReservedSeats = reservedSeats; // Передаем список мест в представление
+            ViewBag.NumberOfSeats = flight.Bus.numberSeat; // Передаем количество мест
+
             return View(flight);
         }
 
