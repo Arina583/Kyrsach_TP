@@ -1,4 +1,4 @@
-﻿@model Company.Models.Tickets;
+﻿@model Tickets
 @{
     Layout = null;
 }
@@ -8,30 +8,66 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ПассажирскийПуть</title>
+    <title>ПассажирскийПуть | Ваш билет</title>
+    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
-    <header>Продажа билетов</header>
-    <main>
-        <div class="container">
-            <h1>Билет № @Model.id</h1>
-            <p>Рейс: @Model.Flight.numberFlight</p>
-            <p>Отправление: @Model.Flight.Route.cityDeparture.nameStop</p>
-            <p>Назначение: @Model.Flight.Route.cityArrival.nameStop</p>
-            <p>Дата отправления: @Model.Flight.timeDeparture</p>
-            <p>Место: @Model.numberSeat</p>
-            <p>Цена: @Model.Flight.price руб.</p>
-            <p>Пассажир: @Model.Passenger.lastName @Model.Passenger.firstName @Model.Passenger.patronymic</p>
-            <p>E-mail: @Model.Passenger.email</p>
+    <div class="container mt-5">
+        <h1>Билет</h1>
+        <div id="ticketContent">
+            <div class="card p-3">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Рейс: @(Model.Flight.Route?.cityDeparture?.nameStop ?? "Не задано") - @(Model.Flight.Route?.cityArrival?.nameStop ?? "Не задано")
+                    </li>
+                    <li class="list-group-item">Номер места: @Model.numberSeat</li>
+                    <li class="list-group-item">Цена билета: @Model.Flight.price руб.</li>
+                    <li class="list-group-item">Время отправления - время прибытия: @Model.Flight.timeDeparture - @Model.Flight.timeArrival</li>
+                </ul>
+            </div>
+        </div>
 
-            <button onclick="window.print()">Распечатать билет</button>
+        <div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-labelledby="printModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="printModalLabel">Ваш билет успешно приобретён!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Нажмите ниже, чтобы распечатать билет:
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" onclick="printTicket()">Распечатать билет</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </main>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            © 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+
+        <!-- Скрипт для автоматического открытия окна -->
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#printModal').modal('show');
+            });
+
+            function printTicket() {
+               $('#printModal').modal('hide');
+
+               var printContents = document.getElementById('ticketContent').innerHTML;
+               var originalContents = document.body.innerHTML;
+
+               document.body.innerHTML = printContents;
+               window.print();
+               document.body.innerHTML = originalContents;
+               location.reload();
+            }
+        </script>
+
+    </div>
 </body>
 </html>

@@ -1,9 +1,7 @@
 ﻿using Company.Models;
-using Company.ViewsModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 
 namespace Company.Controllers
 {
@@ -15,95 +13,133 @@ namespace Company.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         // GET: /Dispatcher/Sale
-        public IActionResult Sale()
+        // Показывает список доступных маршрутов
+        public async Task<IActionResult> Sale()
         {
-            var model = new SaleViewModels();
-            model.AvailableFlights = GetAvailableFlights(); // метод возвращает список рейсов
-            return View(model);
-        }
+            // Загрузка маршрутов
+            var routes = await _context.Routes
+                .Include(r => r.cityDeparture)
+                .Include(r => r.cityArrival)
+                .ToListAsync();
 
-        // POST: /Dispatcher/Sale
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Sale(SaleViewModels viewModel)
-        {
-            if (!ModelState.IsValid)
+            // Загрузка рейсов
+            var flights = await _context.Flights.ToListAsync();
+
+            // Создание единого списка объектов для представления
+            var combinedData = new List<(string RouteInfo, string FlightInfo, TimeOnly DepartureTime)>();
+
+            foreach (var route in routes)
             {
-                viewModel.AvailableFlights = GetAvailableFlights();
-                return View(viewModel); // Возвращаем обратно с ошибками
+                foreach (var flight in flights.Where(f => f.RouteId == route.id))
+                {
+                    combinedData.Add((
+                        $"{route.cityDeparture.nameStop} → {route.cityArrival.nameStop}",
+                        flight.Id.ToString(),
+                        flight.timeDeparture
+                    ));
+                }
             }
 
-            // Создаем новый объект пассажира
-            var passenger = new Passengers
+            return View(combinedData);
+        }
+
+        public async Task<IActionResult> Select(int id)
+        {
+            // Находим рейс по идентификатору
+            var flight = await _context.Flights.FindAsync(id);
+
+            if (flight == null)
+                return Content("Рейс не найден.");
+
+            // Находим автобус, связанный с рейсом
+            var bus = await _context.Buses.FindAsync(flight.BusId);
+
+            if (bus == null || bus.numberSeat == 0)
+                return Content("Автобус не найден или вместимость неизвестна.");
+
+            // Количество мест в автобусе
+            var totalSeats = bus.numberSeat;
+
+            // Занятые места
+            var occupiedSeats = await _context.Tickets
+                .Where(t => t.FlightId == flight.Id)
+                .Select(t => t.numberSeat)
+                .ToListAsync();
+
+            // Свободные места
+            var freeSeats = Enumerable.Range(1, totalSeats).Except(occupiedSeats).ToList();
+
+            TempData["FlightId"] = flight.Id;
+
+            return View(freeSeats);
+        }
+
+
+        // POST: покупка нового билета
+        [HttpPost]
+        public async Task<IActionResult> Buy(int seat)
+        {
+            var flightId = Convert.ToInt32(TempData["FlightId"]);
+
+            var flight = await _context.Flights
+                .Include(f => f.Route)
+                    .ThenInclude(r => r.cityDeparture)
+                .FirstOrDefaultAsync(f => f.Id == flightId);
+
+            if (flight == null)
             {
-                firstName = viewModel.Passenger.firstName,
-                lastName = viewModel.Passenger.lastName,
-                patronymic = viewModel.Passenger.patronymic,
-                passportData = viewModel.Passenger.passportData,
-                email = viewModel.Passenger.email
-            };
+                return Content("Рейс не найден.");
+            }
 
-            await _context.Passengers.AddAsync(passenger);
-            await _context.SaveChangesAsync();
-
-            // Добавляем билет и связываем с пассажиром и рейсом
             var ticket = new Tickets
             {
-                numberSeat = GenerateRandomNumber(), // Метод генерирует случайный номер места
+                numberSeat = seat,
+                FlightId = flight.Id,
                 status = "Куплен",
-                FlightId = viewModel.Flight.Id,
-                PassengerId = passenger.id
+                PassengerId = 1,
+                StopId = flight.Route.cityDeparture.Id
             };
 
-            await _context.Tickets.AddAsync(ticket);
+            _context.Add(ticket);
             await _context.SaveChangesAsync();
 
-            // Переадресация на страницу успешного завершения
-            return RedirectToAction(nameof(Success));
+            return RedirectToAction(nameof(PrintTicket), new { ticketId = ticket.id });
         }
 
-        // Страница успешной покупки
-        public IActionResult Success()
+
+        // GET: /Dispatcher/PrintTicket/{ticketId}
+        // Показывает билет для печати
+        public async Task<IActionResult> PrintTicket(int ticketId)
         {
-            return View();
+            var ticket = await _context.Tickets
+                .Include(t => t.Flight)
+                .ThenInclude(f => f.Route)
+                .FirstOrDefaultAsync(t => t.id == ticketId);
+
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            return View(ticket);
         }
 
-        // Вспомогательные методы
-        private IEnumerable<SelectListItem> GetAvailableFlights()
+
+        // Заявка на возврат билета
+        public IActionResult RequestRefund(int ticketId)
         {
-            // Логика получения списка доступных рейсов
-            var flights = _context.Flights.ToList().Select(f =>
-                new SelectListItem { Value = f.Id.ToString(), Text = $"{f.timeArrival}, {f.timeDeparture}" });
-            return flights;
+            var ticket = _repository.GetTicketById(ticketId);
+            return View(ticket);
         }
 
-        private static Random random = new Random();
-        private int GenerateRandomNumber() => random.Next(1, 39);
-
-        [Authorize(Roles = "dispatcher")] // Защищаем метод авторизацией по роли
-        public IActionResult ReturnTicket()
+        // Обработка заявки на возврат
+        [HttpPost]
+        public IActionResult ProcessRefund(RequestRefundModel model)
         {
-            return View();
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "dispatcher")] // Защищаем метод авторизацией по роли
-        public IActionResult PassportDate()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "dispatcher")] // Защищаем метод авторизацией по роли
-        public IActionResult Payment()
-        {
-            return View();
+            _repository.RequestRefund(model.TicketId, model.Reason);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<(string RouteInfo, string FlightInfo, TimeOnly DepartureTime)>
+﻿@model IEnumerable<int>
 @{
     Layout = null;
 }
@@ -33,16 +33,15 @@
 <body>
     <header>Продажа билетов</header>
     <main>
-        <h1>Выбор маршрута</h1>
-        <table class="table table-striped">
-            @foreach (var item in Model)
+        <h1>Выбор места</h1>
+        <table class="table table-bordered">
+            <h2>Выберите место</h2>
+            @foreach (var seat in Model)
             {
-                <tr>
-                    <td>@item.RouteInfo</td>
-                    <td>
-                        <a asp-action="Select" asp-route-id="@item.FlightInfo">@item.DepartureTime.ToString("HH:mm")</a>
-                    </td>
-                </tr>
+                <form method="post" asp-action="Buy">
+                    <input type="hidden" name="seat" value="@seat" />
+                    <button type="submit">Место @seat</button>
+                </form>
             }
         </table>
     </main>
