@@ -152,7 +152,6 @@ namespace TruckingCompany.Controllers
                     return BadRequest("Маршрут для этого рейса не найден.");
                 }
 
-                // Предположим, что в маршруте есть поле DepartureStopId с Id начальной остановки
                 var departureStopId = route.DepartureStopsId;
 
                 // Сохраняем DepartureStopsId в TempData

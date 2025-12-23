@@ -1,4 +1,4 @@
-﻿@model Company.ViewsModels.SaleViewModels;
+﻿@model IEnumerable<Routes>
 @{
     Layout = null;
 }
@@ -32,56 +32,16 @@
 </head>
 <body>
     <header>Продажа билетов</header>
-    <form asp-action="Sale" method="post">
-    <div class="row">
-        <div class="col-md-6">
-            <h4>Покупка билета</h4>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Passenger.firstName)
-                @Html.TextBoxFor(m => m.Passenger.firstName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Passenger.firstName)
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Passenger.lastName)
-                @Html.TextBoxFor(m => m.Passenger.lastName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Passenger.lastName)
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Passenger.patronymic)
-                @Html.TextBoxFor(m => m.Passenger.patronymic, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Passenger.patronymic)
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Passenger.passportData)
-                @Html.TextBoxFor(m => m.Passenger.passportData, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Passenger.passportData)
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Passenger.email)
-                @Html.TextBoxFor(m => m.Passenger.email, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Passenger.email)
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Flight.Id)
-                @Html.DropDownListFor(m => m.Flight.Id, Model.AvailableFlights, "-- Выберите рейс --", new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Flight.Id)
-            </div>
-
-            <input type="submit" value="Купить билет" class="btn btn-primary" />
-        </div>
-
-        <div class="col-md-6">
-            <p><strong>Заглушка:</strong></p>
-            <img src="/images/sale_stub.png" alt="Заставка продажа билетов" style="max-width: 100%;" />
-        </div>
-    </div>
-    </form>
+    <h1>Выбор маршрута</h1>
+    <table class="table table-striped">
+        @foreach (var route in Model)
+        {
+            <tr>
+                <td>@route.cityDeparture → @route.cityArrival</td>
+                <td><a asp-action="Select" asp-route-id="@route.id">Посмотреть билеты</a></td>
+            </tr>
+        }
+    </table>
     </main>
     <footer class="border-top footer text-muted">
         <div class="container">

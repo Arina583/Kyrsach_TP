@@ -59,15 +59,15 @@ namespace Company.Controllers
                 return NotFound("Рейс не найден");
             }
 
-            // 2. Получаем список купленных билетов для этого рейса
+            // Получаем список купленных билетов для этого рейса
             var purchasedTickets = _context.Tickets
-                .Where(t => t.FlightId == flight.Id && t.status == "Куплен")
+                .Where(t => t.FlightId == flight.Id && (t.status == "Куплен" || t.status == "Завершен"))
                 .ToList();
 
-            // 3. Извлекаем номера мест из билетов
+            // Извлекаем номера мест из билетов
             var seatNumbers = purchasedTickets.Select(t => t.numberSeat).ToList();
 
-            // 4. Формируем данные для отчета, включая номера мест
+            // Формируем данные для отчета, включая номера мест
             var reportData = new
             {
                 ReisInfo = $"Рейс: {flight.Route.cityDeparture.nameStop} - {flight.Route.cityArrival.nameStop}",
@@ -80,12 +80,6 @@ namespace Company.Controllers
             // Возвращаем представление с данными для отчета
             return View("ReportView", reportData);
         }
-
-        /*[Authorize(Roles = "logist")] // Защищаем метод авторизацией по роли
-        public IActionResult Routes()
-        {
-            return View();
-        }*/
 
         [Authorize(Roles = "logist")]
         public IActionResult Schedule(string departureCity, string arrivalCity)
@@ -112,7 +106,7 @@ namespace Company.Controllers
             return View(flights.ToList());
         }
 
-        [Authorize(Roles = "logist")] // Защищаем метод авторизацией по роли
+        [Authorize(Roles = "logist")]
         public IActionResult Buses()
         {
             return View(_context.Buses.ToList());
@@ -126,6 +120,7 @@ namespace Company.Controllers
         }
 
         // Метод для добавления нового автобуса
+        [Authorize(Roles = "logist")]
         public IActionResult AddBus()
         {
             return View();
@@ -133,6 +128,7 @@ namespace Company.Controllers
 
         // Метод для добавления нового автобуса
         [HttpPost]
+        [Authorize(Roles = "logist")]
         public IActionResult AddBus(Buses bus)
         {
 
@@ -142,6 +138,7 @@ namespace Company.Controllers
         }
 
         // Метод для редактирования автобуса
+        [Authorize(Roles = "logist")]
         public IActionResult EditBus(int id)
         {
             Buses bus = _context.Buses.FirstOrDefault(b => b.id == id);
@@ -154,6 +151,7 @@ namespace Company.Controllers
 
         // Метод для редактирования автобуса
         [HttpPost]
+        [Authorize(Roles = "logist")]
         public IActionResult EditBus(Buses bus)
         {
             Buses existingBus = _context.Buses.FirstOrDefault(b => b.id == bus.id);
@@ -174,6 +172,7 @@ namespace Company.Controllers
 
         // Методы для удаления автобуса
         [HttpGet]
+        [Authorize(Roles = "logist")]
         public IActionResult DeleteBus(int id)
         {
             Buses bus = _context.Buses.FirstOrDefault(b => b.id == id);
@@ -185,6 +184,7 @@ namespace Company.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "logist")]
         public IActionResult DeleteBus(Buses buses)
         {
             _context.Remove(buses);
@@ -200,6 +200,7 @@ namespace Company.Controllers
 
         // Метод для добавления нового водителя
         [HttpPost]
+        [Authorize(Roles = "logist")]
         public IActionResult AddDriver(Drivers driver)
         {
 
@@ -209,6 +210,7 @@ namespace Company.Controllers
         }
 
         // Метод для редактирования данный водителя
+        [Authorize(Roles = "logist")]
         public IActionResult EditDriver(int id)
         {
             Drivers driver = _context.Drivers.FirstOrDefault(b => b.id == id);
@@ -221,6 +223,7 @@ namespace Company.Controllers
 
         // Метод для редактирования данных водителя
         [HttpPost]
+        [Authorize(Roles = "logist")]
         public IActionResult EditDriver(Drivers driver)
         {
             Drivers existingDriver = _context.Drivers.FirstOrDefault(d => d.id == driver.id);
@@ -244,6 +247,7 @@ namespace Company.Controllers
 
         // Методы для удаления водителя
         [HttpGet]
+        [Authorize(Roles = "logist")]
         public IActionResult DeleteDriver(int id)
         {
             Drivers driver = _context.Drivers.FirstOrDefault(b => b.id == id);
@@ -255,6 +259,7 @@ namespace Company.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "logist")]
         public IActionResult DeleteDriver(Drivers drivers)
         {
             _context.Remove(drivers);
