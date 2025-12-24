@@ -48,5 +48,11 @@
             &copy; 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            alert(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["SuccessMessage"])));
+        </script>
+    }
 </body>
 </html>

@@ -35,49 +35,59 @@
     <main>
         @if (Model != null && Model.Count > 0)
         {
-            <!-- Отображаем найденные билеты -->
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Номер рейса</th>
-                        <th>Номер места</th>
-                        <th>Маршрут</th>
-                        <th>Время</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var ticket in Model)
-                    {
+            <!-- Фильтруем билеты только со статусом 'Куплен' -->
+            var filteredTickets = Model.Where(t => t.status == "Куплен");
+
+            if (filteredTickets.Any())
+            {
+                <!-- Отображаем найденные купленные билеты -->
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            @if (ticket.Flight != null)
-                            {
-                                <td>@ticket.Flight.numberFlight</td>
-                                <td>@ticket.numberSeat</td>
-                                @if (ticket.Flight?.Route != null)
+                            <th>Номер рейса</th>
+                            <th>Номер места</th>
+                            <th>Маршрут</th>
+                            <th>Время</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ticket in filteredTickets)
+                        {
+                            <tr>
+                                @if (ticket.Flight != null)
                                 {
-                                    <td>@ticket.Flight.Route.cityDeparture.nameStop → @ticket.Flight.Route.cityArrival.nameStop</td>
+                                    <td>@ticket.Flight.numberFlight</td>
+                                    <td>@ticket.numberSeat</td>
+                                    @if (ticket.Flight?.Route != null)
+                                    {
+                                        <td>@ticket.Flight.Route.cityDeparture.nameStop → @ticket.Flight.Route.cityArrival.nameStop</td>
+                                    }
+                                    else
+                                    {
+                                        <td colspan="3">Данные о маршруте отсутствуют.</td>
+                                    }
+                                    <td>@ticket.Flight.timeDeparture.ToString() - @ticket.Flight.timeArrival.ToString()</td>
+                                    <td>
+                                        <form asp-action="ConfirmReturn" method="get">
+                                            <input type="hidden" name="id" value="@ticket.id" />
+                                            <button type="submit" class="btn btn-danger">Оформить возврат</button>
+                                        </form>
+                                    </td>
                                 }
                                 else
                                 {
-                                    <td colspan="3">Данные о маршруте отсутствуют.</td>
+                                    <td colspan="3">Данные о рейсе отсутствуют.</td>
                                 }
-                                <td>@ticket.Flight.timeDeparture.ToString() - @ticket.Flight.timeArrival.ToString()</td>
-                                <td>
-                                    <form asp-action="ConfirmReturn" method="get">
-                                        <input type="hidden" name="ticketId" value="@ticket.id" />
-                                        <button type="submit" class="btn btn-danger">Оформить возврат</button>
-                                    </form>
-                                </td>
-                            }
-                            else
-                            {
-                                <td colspan="3">Данные о рейсе отсутствуют.</td>
-                            }
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Билетов для возврата нет</p>
+            }
         }
         else
         {
