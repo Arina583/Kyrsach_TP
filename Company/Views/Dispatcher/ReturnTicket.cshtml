@@ -40,8 +40,9 @@
                 <thead>
                     <tr>
                         <th>Номер рейса</th>
+                        <th>Номер места</th>
                         <th>Маршрут</th>
-                        <th>Время отправления</th>
+                        <th>Время</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -52,6 +53,7 @@
                             @if (ticket.Flight != null)
                             {
                                 <td>@ticket.Flight.numberFlight</td>
+                                <td>@ticket.numberSeat</td>
                                 @if (ticket.Flight?.Route != null)
                                 {
                                     <td>@ticket.Flight.Route.cityDeparture.nameStop → @ticket.Flight.Route.cityArrival.nameStop</td>
@@ -60,7 +62,13 @@
                                 {
                                     <td colspan="3">Данные о маршруте отсутствуют.</td>
                                 }
-                                <td>@ticket.Flight.timeDeparture.ToString()</td>
+                                <td>@ticket.Flight.timeDeparture.ToString() - @ticket.Flight.timeArrival.ToString()</td>
+                                <td>
+                                    <form asp-action="ConfirmReturn" method="get">
+                                        <input type="hidden" name="ticketId" value="@ticket.id" />
+                                        <button type="submit" class="btn btn-danger">Оформить возврат</button>
+                                    </form>
+                                </td>
                             }
                             else
                             {
