@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Tickets>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ПассажирскийПуть</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        .container1 {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+
+        .form-block {
+            width: 45%; /* Ширина блоков */
+        }
+
+        .form-block1 {
+            width: 50%; /* Ширина блоков */
+            border-width: 1;
+            border-style: solid;
+            border-color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>Возврат</header>
+    <main>
+        <h1>Поиск билетов для возврата</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>№ билета</th>
+                    <th>Маршрут</th>
+                    <th>Время отправления</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ticket in Model)
+                {
+                    <tr>
+                        <td>@ticket.id</td>
+                        <td>@ticket.Flight.Route.cityDeparture.nameStop → @ticket.Flight.Route.cityArrival.nameStop</td>
+                        <td>@ticket.Flight.timeDeparture</td>
+                        <td>
+                            <a asp-action="PostReturnTicket" asp-route-ticketId="@ticket.id" class="btn btn-warning">Вернуть билет</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            © 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script>
+        function showAlert() {
+            alert("Возврат успешен!");
+        }
+    </script>
+</body>
+</html>

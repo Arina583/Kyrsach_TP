@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Company.Models.Tickets>
+@{
     Layout = null;
 }
 
@@ -18,11 +19,11 @@
         }
 
         .form-block {
-            width: 45%; /* Ширина блоков */
+            width: 45%;
         }
 
         .form-block1 {
-            width: 50%; /* Ширина блоков */
+            width: 50%;
             border-width: 1;
             border-style: solid;
             border-color: white;
@@ -31,68 +32,70 @@
 </head>
 <body>
     <header>Возврат</header>
-    <div class="container1">
-        <div class="form-block1">
-            <button onclick="window.location.href='/Dispatcher/Sale'">Продажа</button>
-        </div>
-        <div class="form-block1">
-            <button onclick="window.location.href='/Dispatcher/ReturnTicket'">Возврат</button>
-        </div>
-    </div>
     <main>
-        <div class="container1">
-            <div class="form-block">
-                <h4>Данные рейса</h4>
-                <label for="departure">Пункт отправления:</label>
-                <input type="text" id="departure" name="departure" required><br>
-
-                <label for="destination">Пункт назначения:</label>
-                <input type="text" id="arrival" name="arrival" required><br>
-
-                <label for="date">Дата отправления:</label>
-                <input type="date" id="date" name="date" required><br>
-
-                <label for="time">Время отправления:</label>
-                <input type="time" id="time" name="time" required>
-            </div>
-            <div class="form-block">
-                <h4>Паспортные данные</h4>
-                <label for="fullname">ФИО:</label>
-                <input type="text" id="fullname" name="fullname" required><br>
-
-                <label for="passport">Номер паспорта:</label>
-                <input type="text" id="passport" name="passport" required><br>
-
-                <label for="passport">Серия паспорта:</label>
-                <input type="text" id="passport" name="passport" required><br>
-
-                <label for="fullname">Дата выдачи:</label>
-                <input type="date" id="date" name="date" required>
-            </div>
-        </div>
-        <hr />
-        <div class="container1">
-            <label for="payment">Способ оплаты:</label>
-            <select id="payment" name="payment">
-                <option value="cash">Наличные</option>
-                <option value="card">Карта</option>
-            </select>
-        </div>
-        <hr />
-        <div class="container1">
-            <button onclick="showAlert()">Далее</button>
-        </div>
+        @if (Model != null && Model.Count > 0)
+        {
+            <!-- Отображаем найденные билеты -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Номер рейса</th>
+                        <th>Маршрут</th>
+                        <th>Время отправления</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in Model)
+                    {
+                        <tr>
+                            @if (ticket.Flight != null)
+                            {
+                                <td>@ticket.Flight.numberFlight</td>
+                                @if (ticket.Flight?.Route != null)
+                                {
+                                    <td>@ticket.Flight.Route.cityDeparture.nameStop → @ticket.Flight.Route.cityArrival.nameStop</td>
+                                }
+                                else
+                                {
+                                    <td colspan="3">Данные о маршруте отсутствуют.</td>
+                                }
+                                <td>@ticket.Flight.timeDeparture.ToString()</td>
+                            }
+                            else
+                            {
+                                <td colspan="3">Данные о рейсе отсутствуют.</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <!-- Форма поиска билетов -->
+            <h1>Поиск билетов для возврата</h1>
+            <form asp-action="ReturnTicket" method="post">
+                <div class="form-group">
+                    <label for="from">Откуда:</label>
+                    <input type="text" class="form-control" name="from" placeholder="Город отправления" required />
+                </div>
+                <div class="form-group">
+                    <label for="to">Куда:</label>
+                    <input type="text" class="form-control" name="to" placeholder="Город назначения" required />
+                </div>
+                <div class="form-group">
+                    <label for="departureTime">Время отправления:</label>
+                    <input type="time" class="form-control" name="departureTime" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Найти билеты</button>
+            </form>
+        }
     </main>
     <footer class="border-top footer text-muted">
         <div class="container">
             © 2025 - ПассажирскийПуть - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-
-    <script>
-        function showAlert() {
-            alert("Возврат успешен!");
-        }
-    </script>
 </body>
 </html>
