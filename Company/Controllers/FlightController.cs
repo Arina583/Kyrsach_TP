@@ -42,9 +42,9 @@ namespace TruckingCompany.Controllers
             // Ищем рейсы, у которых маршрут начинается с города отправления и заканчивается городом прибытия
             var flights = _context.Flights
                 .Include(f => f.Route)
-                    .ThenInclude(r => r.cityDeparture) // Include города отправления
+                    .ThenInclude(r => r.cityDeparture) 
                 .Include(f => f.Route)
-                    .ThenInclude(r => r.cityArrival)   // Include города прибытия
+                    .ThenInclude(r => r.cityArrival)
                 .Where(f => f.Route.DepartureStopsId == departureStopId && f.Route.ArrivalStopsId == arrivalStopId)
                 .ToList();
 
@@ -147,6 +147,7 @@ namespace TruckingCompany.Controllers
             {
                 // Получаем маршрут связанный с рейсом
                 var route = await _context.Routes.FindAsync(flight.RouteId);
+
                 if (route == null)
                 {
                     return BadRequest("Маршрут для этого рейса не найден.");
@@ -169,18 +170,7 @@ namespace TruckingCompany.Controllers
                 _context.Tickets.Add(ticket);
                 await _context.SaveChangesAsync();
 
-                /*// Удаление брони через 30 минут
-                Task.Delay(TimeSpan.FromMinutes(30)).ContinueWith(async _ =>
-                {
-                    var ticketToDelete = await _context.Tickets.FindAsync(ticket.id);
-                    if (ticketToDelete != null && ticketToDelete.status == "Забронирован")
-                    {
-                        _context.Tickets.Remove(ticketToDelete);
-                        await _context.SaveChangesAsync();
-                    }
-                });*/
-
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Pay", new { id = id, seatNumber = seatNumber, email = email });
             }
 
             return View();
@@ -282,5 +272,75 @@ namespace TruckingCompany.Controllers
             //После успешной покупки
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Pay(int id, string seatNumber, string email)
+        {
+            // Запрашиваем модель рейса по переданному id
+            var flight = _context.Flights.Find(id);
+
+            if (flight == null)
+            {
+                return NotFound(); // Рейс не найден
+            }
+
+            // Передача данных через ViewBag
+            ViewBag.flightId = flight.Id;
+            ViewBag.SeatNumber = seatNumber;
+            ViewBag.Email = email;
+
+            return View();
+        }
+
+        public IActionResult PaymentReserv(int id, string seatNumber, string email)
+        {
+            ViewBag.Id = id;
+            ViewBag.SeatNumber = seatNumber;
+            ViewBag.Email = email;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PaymentReserv(string lastName, string firstName, string patronymic, string email, int id, int seatNumber)
+        {
+            // Создаем нового пассажира
+            var passenger = new Passengers
+            {
+                lastName = lastName,
+                firstName = firstName,
+                patronymic = patronymic,
+                email = email,
+            };
+
+            passenger.passportData = " ";
+
+            _context.Passengers.Add(passenger);
+            await _context.SaveChangesAsync();
+            _context.Entry(passenger).GetDatabaseValues();
+
+            // Обновляем билет
+            var ticket = _context.Tickets.FirstOrDefault(t => t.FlightId == id && t.numberSeat == seatNumber);
+            if (ticket != null)
+            {
+                // Проверяем, что билет еще не куплен
+                if (ticket.status != "Куплен")
+                {
+                    ticket.PassengerId = passenger.id;
+                    ticket.status = "Куплен";
+                    _context.Tickets.Update(ticket);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    return BadRequest("Билет уже куплен.");
+                }
+            }
+            else
+            {
+                return NotFound("Билет не найден.");
+            }
+
+            return RedirectToAction("Index", "Home"); // Перенаправляем на главную
+        }
+
     }
 }

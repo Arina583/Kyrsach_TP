@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Бронь подтверждена | Пассажирский путь</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <header>Покупка билета на рейс</header>
+    <main role="main" class="pb-3 container mt-5">
+        <h2>Ваш билет успешно зарезервирован!</h2>
+        <p>Вы можете оплатить билет сейчас или отложить оплату до отправки рейса.</p>
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-success" asp-action="PaymentReserv" asp-route-id="@ViewBag.flightId" asp-route-seatNumber="@ViewBag.seatNumber" asp-route-email="@ViewBag.Email">Оплатить сейчас</a>
+            <a class="btn btn-outline-dark" asp-action="Index" asp-controller="Home">Оплатить позже</a>
+        </div>
+    </main>
+    <footer class="border-top footer text-muted fixed-bottom py-3 bg-light">
+        <div class="container">
+            © 2025 - Пассажирский путь - <a asp-area="" asp-controller="Home" asp-action="Privacy">Политика конфиденциальности</a>
+        </div>
+    </footer>
+</body>
+</html>
