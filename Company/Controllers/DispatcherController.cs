@@ -1,4 +1,5 @@
 ﻿using Company.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Core.Types;
@@ -15,6 +16,7 @@ namespace Company.Controllers
         }
 
         // GET: /Dispatcher/Sale
+        [Authorize(Roles = "dispatcher")]
         public async Task<IActionResult> Sale()
         {
             // Загружаем маршруты
@@ -46,6 +48,7 @@ namespace Company.Controllers
             return View(combinedData); // Передача данных в представление
         }
 
+        [Authorize(Roles = "dispatcher")]
         public async Task<IActionResult> Select(int id)
         {
             // Находим рейс по идентификатору
@@ -80,6 +83,7 @@ namespace Company.Controllers
 
         // POST: покупка нового билета
         [HttpPost]
+        [Authorize(Roles = "dispatcher")]
         public async Task<IActionResult> Buy(int seat)
         {
             var flightId = Convert.ToInt32(TempData["FlightId"]);
@@ -112,6 +116,7 @@ namespace Company.Controllers
 
         // GET: /Dispatcher/PrintTicket/{ticketId}
         // Показывает билет для печати
+        [Authorize(Roles = "dispatcher")]
         public async Task<IActionResult> PrintTicket(int ticketId)
         {
             var ticket = await _context.Tickets
@@ -132,6 +137,7 @@ namespace Company.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "dispatcher")]
         public IActionResult ReturnTicket()
         {
 
@@ -140,6 +146,7 @@ namespace Company.Controllers
 
         // Метод поиска билетов для возврата
         [HttpPost]
+        [Authorize(Roles = "dispatcher")]
         public async Task<IActionResult> ReturnTicket(string from, string to, TimeOnly departureTime)
         {
             // Параметры поиска
@@ -173,6 +180,7 @@ namespace Company.Controllers
 
         // Показ страницы подтверждения возврата
         [HttpGet]
+        [Authorize(Roles = "dispatcher")]
         public async Task<IActionResult> ConfirmReturn(int id)
         {
             var ticket = await _context.Tickets
@@ -193,6 +201,7 @@ namespace Company.Controllers
 
         // Подтверждение возврата билета
         [HttpPost]
+        [Authorize(Roles = "dispatcher")]
         public async Task<IActionResult> PostReturnTicket(int ticketId)
         {
             var ticket = await _context.Tickets.FindAsync(ticketId);

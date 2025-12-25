@@ -7,6 +7,9 @@ namespace Company.Models
     {
         public DbClassContext(DbContextOptions<DbClassContext> options) : base(options) { }
 
+        // Добавляем пустой конструктор
+        public DbClassContext() { }
+
         public DbSet<Buses> Buses { get; set; }
         public DbSet<Drivers> Drivers { get; set; }
         public DbSet<Passengers> Passengers { get; set; }
@@ -14,7 +17,7 @@ namespace Company.Models
         public DbSet<Stops> Stops { get; set; }
         public DbSet<Flights> Flights { get; set; }
         public DbSet<Routes> Routes { get; set; }
-        public DbSet<PersonalRoles> PersonalRoles { get; set; }
+        public virtual DbSet<PersonalRoles> PersonalRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

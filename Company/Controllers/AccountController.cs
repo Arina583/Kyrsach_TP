@@ -1,5 +1,4 @@
 ﻿using Company.Models;
-using Company.Tests;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -31,25 +30,41 @@ namespace TruckingCompany.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string login, string password)
         {
-            // 1. Проверка наличия пользователя в БД
-            var user = _context.PersonalRoles.FirstOrDefault(u => u.login == login && u.password == password);
+            // 1. Сначала проверяем валидность входных данных
+            if (string.IsNullOrEmpty(login))
+            {
+                ModelState.AddModelError("login", "Логин не может быть пустым.");
+                return View();
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                ModelState.AddModelError("password", "Пароль не может быть пустым.");
+                return View();
+            }
+
+            // 2. Проверка наличия пользователя в БД
+            var user = _context.PersonalRoles
+                .FirstOrDefault(u => u.login == login && u.password == password);
 
             if (user != null)
             {
-                // 2. Создание claims для аутентификации
+                // 3. Создание claims для аутентификации
                 var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.login),
-                    new Claim(ClaimTypes.Role, user.role)
-                };
+        {
+            new Claim(ClaimTypes.Name, user.login),
+            new Claim(ClaimTypes.Role, user.role)
+        };
 
-                // 3. Создание identity
+                // 4. Создание identity
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                // 4. Аутентификация пользователя
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                // 5. Аутентификация пользователя
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(identity));
 
-                // 5. Редирект на нужную страницу в зависимости от роли
+                // 6. Редирект на нужную страницу в зависимости от роли
                 if (user.role == "dispatcher")
                 {
                     return RedirectToAction("DispatcherDashboard", "Account");
@@ -60,14 +75,15 @@ namespace TruckingCompany.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home"); // Редирект на главную, если роль неизвестна
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
             // Если аутентификация не удалась
-            ModelState.AddModelError("", "Неправильный логин или пароль."); // Сообщение об ошибке
+            ModelState.AddModelError("", "Неправильный логин или пароль.");
             return View();
         }
+
 
         public async Task<IActionResult> Logout()
         {
